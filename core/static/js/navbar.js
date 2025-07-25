@@ -119,6 +119,77 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // User menu modal functionality
+    const userMenuModal = document.getElementById('user-menu-modal');
+    const userMenuBtnDesktop = document.getElementById('user-menu-btn-desktop');
+    const userMenuBtnMobile = document.getElementById('user-menu-btn-mobile');
+    const closeUserMenuBtn = document.getElementById('close-user-menu');
+    
+    console.log('User menu elements found:', {
+        userMenuModal: !!userMenuModal,
+        userMenuBtnDesktop: !!userMenuBtnDesktop,
+        userMenuBtnMobile: !!userMenuBtnMobile,
+        closeUserMenuBtn: !!closeUserMenuBtn
+    });
+
+    function openUserMenu() {
+        console.log('openUserMenu function called');
+        if (userMenuModal) {
+            userMenuModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            console.log('User menu opened successfully');
+        } else {
+            console.log('User menu modal element not found');
+        }
+    }
+
+    function closeUserMenu() {
+        if (userMenuModal) {
+            userMenuModal.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Open user menu event listeners
+    if (userMenuBtnDesktop) {
+        userMenuBtnDesktop.addEventListener('click', function(e) {
+            console.log('Desktop user menu button clicked');
+            openUserMenu();
+        });
+    } else {
+        console.log('Desktop user menu button not found');
+    }
+    
+    if (userMenuBtnMobile) {
+        userMenuBtnMobile.addEventListener('click', function(e) {
+            console.log('Mobile user menu button clicked');
+            openUserMenu();
+        });
+    } else {
+        console.log('Mobile user menu button not found');
+    }
+
+    // Close user menu event listeners
+    if (closeUserMenuBtn) {
+        closeUserMenuBtn.addEventListener('click', closeUserMenu);
+    }
+
+    // Close user menu when clicking outside
+    if (userMenuModal) {
+        userMenuModal.addEventListener('click', function(event) {
+            if (event.target === userMenuModal) {
+                closeUserMenu();
+            }
+        });
+    }
+
+    // Close user menu with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && userMenuModal && userMenuModal.classList.contains('open')) {
+            closeUserMenu();
+        }
+    });
+
     // Navbar scroll effect
     const navbar = document.querySelector('nav');
     let lastScrollTop = 0;

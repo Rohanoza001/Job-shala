@@ -1,0 +1,266 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Application Details - Job Shala{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Application Details</h1>
+                    <p class="mt-2 text-gray-600">View your application for {{ application.job.title }}</p>
+                </div>
+                <div class="flex space-x-3">
+                    <a href="{% url 'my_applications' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="-ml-1 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to Applications
+                    </a>
+                    {% if application.status == 'applied' %}
+                        <button onclick="withdrawApplication({{ application.id }})" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            Withdraw Application
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2">
+                <!-- Job Details -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-12 w-12">
+                                {% if application.job.company.logo %}
+                                    <img class="h-12 w-12 rounded-full object-cover" src="{{ application.job.company.logo.url }}" alt="{{ application.job.company.name }}">
+                                {% else %}
+                                    <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <span class="text-blue-600 font-semibold text-lg">{{ application.job.company.name|first|upper }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="ml-4">
+                                <h2 class="text-xl font-semibold text-gray-900">{{ application.job.title }}</h2>
+                                <p class="text-gray-600">{{ application.job.company.name }}</p>
+                                <p class="text-sm text-gray-500">{{ application.job.company.location }}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full
+                                {% if application.status == 'applied' %}bg-blue-100 text-blue-800
+                                {% elif application.status == 'reviewing' %}bg-yellow-100 text-yellow-800
+                                {% elif application.status == 'shortlisted' %}bg-green-100 text-green-800
+                                {% elif application.status == 'rejected' %}bg-red-100 text-red-800
+                                {% elif application.status == 'withdrawn' %}bg-gray-100 text-gray-800
+                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ application.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">Job Type</h3>
+                            <p class="mt-1 text-sm text-gray-900">{{ application.job.job_type }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">Salary Range</h3>
+                            <p class="mt-1 text-sm text-gray-900">{{ application.job.salary_range }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">Experience Level</h3>
+                            <p class="mt-1 text-sm text-gray-900">{{ application.job.experience_level }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">Location</h3>
+                            <p class="mt-1 text-sm text-gray-900">{{ application.job.location }}</p>
+                        </div>
+                    </div>
+
+                    {% if application.job.description %}
+                        <div class="mt-6">
+                            <h3 class="text-sm font-medium text-gray-500">Job Description</h3>
+                            <div class="mt-2 text-sm text-gray-900 prose prose-sm max-w-none">
+                                {{ application.job.description|linebreaks }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Application Timeline -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Application Timeline</h3>
+                    <div class="flow-root">
+                        <ul class="-mb-8">
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3">
+                                        <div>
+                                            <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                            <div>
+                                                <p class="text-sm text-gray-500">Application submitted</p>
+                                            </div>
+                                            <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                <time datetime="{{ application.applied_at|date:'c' }}">{{ application.applied_at|date:"M d, Y" }}</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% if application.status != 'applied' %}
+                                <li>
+                                    <div class="relative pb-8">
+                                        <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                        <div class="relative flex space-x-3">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                    <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                <div>
+                                                    <p class="text-sm text-gray-500">Application reviewed</p>
+                                                </div>
+                                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                    <time datetime="{{ application.updated_at|date:'c' }}">{{ application.updated_at|date:"M d, Y" }}</time>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endif %}
+                            {% if application.status == 'shortlisted' %}
+                                <li>
+                                    <div class="relative">
+                                        <div class="relative flex space-x-3">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                    <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                <div>
+                                                    <p class="text-sm text-gray-500">Shortlisted for interview</p>
+                                                </div>
+                                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                    <time datetime="{{ application.updated_at|date:'c' }}">{{ application.updated_at|date:"M d, Y" }}</time>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <!-- Application Status -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Application Status</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Current Status</dt>
+                            <dd class="mt-1">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full
+                                    {% if application.status == 'applied' %}bg-blue-100 text-blue-800
+                                    {% elif application.status == 'reviewing' %}bg-yellow-100 text-yellow-800
+                                    {% elif application.status == 'shortlisted' %}bg-green-100 text-green-800
+                                    {% elif application.status == 'rejected' %}bg-red-100 text-red-800
+                                    {% elif application.status == 'withdrawn' %}bg-gray-100 text-gray-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ application.get_status_display }}
+                                </span>
+                            </dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Applied Date</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ application.applied_at|date:"F d, Y" }}</dd>
+                        </div>
+                        {% if application.updated_at != application.applied_at %}
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
+                                <dd class="mt-1 text-sm text-gray-900">{{ application.updated_at|date:"F d, Y" }}</dd>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Contact Information</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Company</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ application.job.company.name }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Location</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ application.job.company.location }}</dd>
+                        </div>
+                        {% if application.job.company.website %}
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Website</dt>
+                                <dd class="mt-1 text-sm text-gray-900">
+                                    <a href="{{ application.job.company.website }}" target="_blank" class="text-blue-600 hover:text-blue-500">
+                                        {{ application.job.company.website }}
+                                    </a>
+                                </dd>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function withdrawApplication(applicationId) {
+    if (confirm('Are you sure you want to withdraw this application? This action cannot be undone.')) {
+        fetch(`/job/applications/${applicationId}/withdraw/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Application withdrawn successfully');
+                window.location.href = '{% url "my_applications" %}';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while withdrawing the application');
+        });
+    }
+}
+</script>
+
+<!-- CSRF Token for AJAX requests -->
+{% csrf_token %}
+{% endblock %} 

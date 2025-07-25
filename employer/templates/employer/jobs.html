@@ -1,0 +1,199 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}My Jobs - Job Shala{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'employer_dashboard' %}" class="text-gray-600 hover:text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                    </a>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">My Jobs</h1>
+                        <p class="text-gray-600">Manage your job postings</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'post_job' %}" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                        Post New Job
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex space-x-8">
+                <a href="{% url 'employer_dashboard' %}" class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 text-sm font-medium">
+                    Dashboard
+                </a>
+                <a href="{% url 'employer_jobs' %}" class="border-b-2 border-primary text-primary py-4 px-1 text-sm font-medium">
+                    My Jobs
+                </a>
+                <a href="{% url 'all_applications' %}" class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 text-sm font-medium">
+                    Applications
+                </a>
+                <a href="{% url 'employer_messages' %}" class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 text-sm font-medium">
+                    Messages
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Filters -->
+        <div class="bg-white rounded-lg shadow mb-6">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Filters</h2>
+            </div>
+            <div class="p-6">
+                <div class="flex flex-wrap gap-4">
+                    <a href="{% url 'employer_jobs' %}" class="px-3 py-1 rounded-full text-sm font-medium {% if not status_filter %}bg-primary text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                        All Jobs
+                    </a>
+                    <a href="{% url 'employer_jobs' %}?status=active" class="px-3 py-1 rounded-full text-sm font-medium {% if status_filter == 'active' %}bg-primary text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                        Active Jobs
+                    </a>
+                    <a href="{% url 'employer_jobs' %}?status=inactive" class="px-3 py-1 rounded-full text-sm font-medium {% if status_filter == 'inactive' %}bg-primary text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                        Inactive Jobs
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs List -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Job Postings ({{ jobs.paginator.count }})</h2>
+            </div>
+            
+            {% if jobs %}
+            <div class="divide-y divide-gray-200">
+                {% for job in jobs %}
+                <div class="p-6 hover:bg-gray-50">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3">
+                                <h3 class="text-lg font-medium text-gray-900">{{ job.title }}</h3>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {% if job.is_active %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                    {% if job.is_active %}Active{% else %}Inactive{% endif %}
+                                </span>
+                                {% if job.is_featured %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Featured
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                                <span>{{ job.location }}</span>
+                                <span>{{ job.get_job_type_display }}</span>
+                                <span>{{ job.get_experience_level_display }}</span>
+                                {% if job.salary_min and job.salary_max %}
+                                <span>{{ job.salary_currency }} {{ job.salary_min|floatformat:0 }} - {{ job.salary_max|floatformat:0 }}</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                                <span>{{ job.applications_count }} applications</span>
+                                <span>{{ job.views_count }} views</span>
+                                <span>Posted {{ job.created_at|date:"M j, Y" }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <a href="{% url 'job_applications' job.id %}" class="text-primary hover:text-secondary text-sm font-medium">
+                                View Applications
+                            </a>
+                            <a href="{% url 'edit_job' job.id %}" class="text-gray-600 hover:text-gray-900 text-sm font-medium">
+                                Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if jobs.has_other_pages %}
+            <div class="px-6 py-4 border-t border-gray-200">
+                <nav class="flex items-center justify-between">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        {% if jobs.has_previous %}
+                            <a href="?page={{ jobs.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Previous
+                            </a>
+                        {% endif %}
+                        {% if jobs.has_next %}
+                            <a href="?page={{ jobs.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Next
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                Showing <span class="font-medium">{{ jobs.start_index }}</span> to <span class="font-medium">{{ jobs.end_index }}</span> of <span class="font-medium">{{ jobs.paginator.count }}</span> results
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                                {% if jobs.has_previous %}
+                                    <a href="?page={{ jobs.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        Previous
+                                    </a>
+                                {% endif %}
+                                
+                                {% for num in jobs.paginator.page_range %}
+                                    {% if jobs.number == num %}
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-primary text-sm font-medium text-white">
+                                            {{ num }}
+                                        </span>
+                                    {% elif num > jobs.number|add:'-3' and num < job.number|add:'3' %}
+                                        <a href="?page={{ num }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                            {{ num }}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if jobs.has_next %}
+                                    <a href="?page={{ jobs.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        Next
+                                    </a>
+                                {% endif %}
+                            </nav>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            {% endif %}
+            
+            {% else %}
+            <div class="px-6 py-12 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6"></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No jobs posted yet</h3>
+                <p class="mt-1 text-sm text-gray-500">Get started by posting your first job.</p>
+                <div class="mt-6">
+                    <a href="{% url 'post_job' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary">
+                        Post Your First Job
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

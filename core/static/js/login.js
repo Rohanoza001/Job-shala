@@ -62,31 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Form submission
-    const jobSeekerForm = document.getElementById('job-seeker-login');
-    const employerForm = document.getElementById('employer-login');
-
-    if (jobSeekerForm) {
-        jobSeekerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('js-email').value;
-            const password = document.getElementById('js-password').value;
-            
-            // Add your login logic here
-            console.log('Job Seeker Login:', { email, password });
-            alert('Job Seeker login functionality will be implemented here.');
-        });
-    }
-
-    if (employerForm) {
-        employerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('emp-email').value;
-            const password = document.getElementById('emp-password').value;
-            
-            // Add your login logic here
-            console.log('Employer Login:', { email, password });
-            alert('Employer login functionality will be implemented here.');
-        });
-    }
+            // Forms will now submit normally to Django backend
+        // No need for custom form submission handlers
 }); 
