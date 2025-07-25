@@ -1,0 +1,203 @@
+/* Custom styles for Job Shala */
+
+/* Navbar styles */
+.navbar-blur {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Mobile menu styles */
+.mobile-menu {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.mobile-menu.open {
+    transform: translateX(0);
+}
+
+/* Modal styles */
+.modal {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    transform: scale(0.7);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal.open .modal-content {
+    transform: scale(1);
+}
+
+/* Progress bar styles */
+.progress-bar {
+    background-color: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background-color: #3b82f6;
+    height: 100%;
+    transition: width 0.3s ease-in-out;
+}
+
+/* Step indicator styles */
+.step-indicator {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+
+.step-indicator.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* Form step styles */
+.form-step {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Image upload styles */
+.image-upload-area {
+    border: 2px dashed #d1d5db;
+    transition: all 0.3s ease-in-out;
+}
+
+.image-upload-area:hover {
+    border-color: #3b82f6;
+    background-color: #f8fafc;
+}
+
+.image-upload-area.dragover {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+/* Skill tag styles */
+.skill-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #dbeafe;
+    color: #1e40af;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.skill-tag:hover {
+    background-color: #bfdbfe;
+}
+
+.remove-skill {
+    margin-left: 0.5rem;
+    color: #3b82f6;
+    transition: color 0.2s ease-in-out;
+}
+
+.remove-skill:hover {
+    color: #1e40af;
+}
+
+/* Button hover effects */
+.btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #1e40af;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Card hover effects */
+.card-hover {
+    transition: all 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Input focus styles */
+.input-focus {
+    transition: all 0.2s ease-in-out;
+}
+
+.input-focus:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Loading animation */
+.loading-spinner {
+    border: 2px solid #e5e7eb;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success animation */
+.success-checkmark {
+    color: #10b981;
+    animation: checkmark 0.5s ease-in-out;
+}
+
+@keyframes checkmark {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+    .mobile-hidden {
+        display: none;
+    }
+    
+    .mobile-full {
+        width: 100%;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .dark-mode {
+        background-color: #1f2937;
+        color: #f9fafb;
+    }
+    
+    .dark-mode .card {
+        background-color: #374151;
+        border-color: #4b5563;
+    }
+} 

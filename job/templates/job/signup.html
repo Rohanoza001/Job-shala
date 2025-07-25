@@ -1,0 +1,1214 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Job Seeker Signup - Job Shala{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Create Your Job Seeker Account</h1>
+            <p class="text-gray-600">Complete your profile to start finding your dream job</p>
+        </div>
+
+                    <!-- Progress Steps -->
+            <div class="mb-8">
+                <div class="flex items-center justify-center space-x-2 md:space-x-4 overflow-x-auto">
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-primary text-white rounded-full flex items-center justify-center font-semibold text-sm md:text-base">1</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-primary">Personal Info</span>
+                    </div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base">2</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-gray-500">Education</span>
+                    </div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base">3</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-gray-500">Experience</span>
+                    </div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base">4</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-gray-500">Projects</span>
+                    </div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base">5</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-gray-500">Skills & More</span>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Form Container -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <form id="signup-form" class="space-y-8">
+                <!-- Step 1: Personal Information -->
+                <div id="step-1" class="step active">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
+                    
+                    <!-- Profile Image Upload -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-4">Profile Image</label>
+                        <div id="image-upload-container" class="relative">
+                            <!-- Drag & Drop Area -->
+                            <div id="drag-drop-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer">
+                                <div class="space-y-4">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-lg font-medium text-gray-900">Upload your profile photo</p>
+                                        <p class="text-sm text-gray-500">Drag and drop your image here, or click to browse</p>
+                                    </div>
+                                    <input type="file" id="profile-image" accept="image/*" class="hidden">
+                                </div>
+                            </div>
+                            
+                            <!-- Image Preview (Hidden by default) -->
+                            <div id="image-preview" class="hidden relative group">
+                                <img id="preview-img" src="" alt="Profile preview" class="w-32 h-32 rounded-full object-cover mx-auto">
+                                <button type="button" id="remove-image" class="absolute bottom-0 right-1/2 transform translate-x-1/2 translate-y-1/2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-all duration-200 opacity-0 group-hover:opacity-100">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information Fields -->
+                    <div class="space-y-6">
+                        <!-- Basic Information -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                                                            <input type="text" id="first-name" name="first_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                </div>
+                                
+                                <div>
+                                    <label for="last-name" class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                                                            <input type="text" id="last-name" name="last_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                </div>
+                                
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                                                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                </div>
+                                
+                                <div>
+                                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                                                                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                </div>
+                                
+                                                                    <div class="md:col-span-2">
+                                        <label for="birth-date" class="block text-sm font-medium text-gray-700 mb-2">Birth Date *</label>
+                                        <input type="date" id="birth-date" name="birth_date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div class="md:col-span-2">
+                                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                        <textarea id="description" name="description" rows="4" placeholder="Tell us about yourself, your background, interests, or any additional information you'd like to share..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Information -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Address Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="md:col-span-2">
+                                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+                                                                            <textarea id="address" name="address" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                                </div>
+                                
+                                <div>
+                                    <label for="country" class="block text-sm font-medium text-gray-700 mb-2">Country *</label>
+                                                                            <select id="country" name="country" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                        <option value="">Select Country</option>
+                                        <option value="India">India</option>
+                                        <option value="USA">USA</option>
+                                        <option value="UK">UK</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="France">France</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="China">China</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="state" class="block text-sm font-medium text-gray-700 mb-2">State *</label>
+                                                                            <select id="state" name="state" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                        <option value="">Select State</option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                        <option value="Jharkhand">Jharkhand</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Odisha">Odisha</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tripura">Tripura</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="Uttarakhand">Uttarakhand</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                        <option value="Ladakh">Ladakh</option>
+                                        <option value="Chandigarh">Chandigarh</option>
+                                        <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                        <option value="Daman and Diu">Daman and Diu</option>
+                                        <option value="Lakshadweep">Lakshadweep</option>
+                                        <option value="Puducherry">Puducherry</option>
+                                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="city" class="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                                                                            <select id="city" name="city" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                        <option value="">Select City</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="pincode" class="block text-sm font-medium text-gray-700 mb-2">Pincode *</label>
+                                                                            <input type="text" id="pincode" name="pincode" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Security -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Security</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+                                                                            <input type="password" id="password" name="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                </div>
+                                
+                                <div>
+                                    <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
+                                                                            <input type="password" id="confirm-password" name="confirm_password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+
+                    <!-- Step 2: Education -->
+                    <div id="step-2" class="step hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Education</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Highest Education -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Highest Education</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="degree" class="block text-sm font-medium text-gray-700 mb-2">Degree/Course *</label>
+                                        <input type="text" id="degree" name="degree" placeholder="e.g., Bachelor of Technology, Master of Science" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="specialization" class="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
+                                        <input type="text" id="specialization" name="specialization" placeholder="e.g., Computer Science, Mechanical Engineering" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="institution" class="block text-sm font-medium text-gray-700 mb-2">Institution *</label>
+                                        <input type="text" id="institution" name="institution" placeholder="University/College name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="graduation-year" class="block text-sm font-medium text-gray-700 mb-2">Graduation Year *</label>
+                                        <select id="graduation-year" name="graduation_year" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                            <option value="">Select Year</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2018">2018</option>
+                                            <option value="2017">2017</option>
+                                            <option value="2016">2016</option>
+                                            <option value="2015">2015</option>
+                                            <option value="2014">2014</option>
+                                            <option value="2013">2013</option>
+                                            <option value="2012">2012</option>
+                                            <option value="2011">2011</option>
+                                            <option value="2010">2010</option>
+                                            <option value="2009">2009</option>
+                                            <option value="2008">2008</option>
+                                            <option value="2007">2007</option>
+                                            <option value="2006">2006</option>
+                                            <option value="2005">2005</option>
+                                            <option value="Ongoing">Currently Studying</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="cgpa" class="block text-sm font-medium text-gray-700 mb-2">CGPA/Percentage</label>
+                                        <input type="text" id="cgpa" name="cgpa" placeholder="e.g., 8.5/10 or 85%" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="board" class="block text-sm font-medium text-gray-700 mb-2">Board/University</label>
+                                        <input type="text" id="board" name="board" placeholder="e.g., CBSE, AICTE, UGC" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Education Container -->
+                            <div id="additional-education-container" class="space-y-6">
+                                <!-- Additional education entries will be added here -->
+                            </div>
+
+                            <!-- Add Education Button -->
+                            <div class="flex justify-center pt-6">
+                                <button type="button" id="add-education-btn" class="flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    Add Another Education
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Experience -->
+                    <div id="step-3" class="step hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Work Experience</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Current/Most Recent Experience -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Current/Most Recent Experience</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="job-title" class="block text-sm font-medium text-gray-700 mb-2">Job Title *</label>
+                                        <input type="text" id="job-title" name="job_title" placeholder="e.g., Software Engineer, Marketing Manager" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Company *</label>
+                                        <input type="text" id="company" name="company" placeholder="Company name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="start-date" class="block text-sm font-medium text-gray-700 mb-2">Start Date *</label>
+                                        <input type="date" id="start-date" name="start_date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="end-date" class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                                        <input type="date" id="end-date" name="end_date" placeholder="Leave empty if currently working" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div class="md:col-span-2">
+                                        <label for="job-description" class="block text-sm font-medium text-gray-700 mb-2">Job Description *</label>
+                                        <textarea id="job-description" name="job_description" rows="4" placeholder="Describe your responsibilities, achievements, and key contributions..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Experiences Container -->
+                            <div id="additional-experiences-container" class="space-y-6">
+                                <!-- Additional experiences will be added here -->
+                            </div>
+
+                            <!-- Add Experience Button -->
+                            <div class="flex justify-center pt-6">
+                                <button type="button" id="add-experience-btn" class="flex items-center px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    Add Another Experience
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Projects -->
+                    <div id="step-4" class="step hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Projects</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Project 1 -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Project 1</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="project-title" class="block text-sm font-medium text-gray-700 mb-2">Project Title *</label>
+                                        <input type="text" id="project-title" name="project_title" placeholder="e.g., E-commerce Website, Mobile App" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="project-duration" class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                                        <input type="text" id="project-duration" name="project_duration" placeholder="e.g., 3 months, 6 months" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div class="md:col-span-2">
+                                        <label for="project-description" class="block text-sm font-medium text-gray-700 mb-2">Project Description *</label>
+                                        <textarea id="project-description" name="project_description" rows="4" placeholder="Describe the project, your role, technologies used, and outcomes..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="project-url" class="block text-sm font-medium text-gray-700 mb-2">Project URL</label>
+                                        <input type="url" id="project-url" name="project_url" placeholder="https://github.com/username/project" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="project-technologies" class="block text-sm font-medium text-gray-700 mb-2">Technologies Used</label>
+                                        <input type="text" id="project-technologies" name="project_technologies" placeholder="e.g., React, Node.js, MongoDB" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Projects Container -->
+                            <div id="additional-projects-container" class="space-y-6">
+                                <!-- Additional projects will be added here -->
+                            </div>
+
+                            <!-- Add Project Button -->
+                            <div class="flex justify-center pt-6">
+                                <button type="button" id="add-project-btn" class="flex items-center px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors font-medium">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    Add Another Project
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Skills & More -->
+                    <div id="step-5" class="step hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Skills & Additional Information</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Technical Skills -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Technical Skills</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="programming-languages" class="block text-sm font-medium text-gray-700 mb-2">Programming Languages</label>
+                                        <select id="programming-languages" name="programming_languages" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                            <option value="">Select Programming Language</option>
+                                            <option value="Python">Python</option>
+                                            <option value="JavaScript">JavaScript</option>
+                                            <option value="Java">Java</option>
+                                            <option value="C++">C++</option>
+                                            <option value="C#">C#</option>
+                                            <option value="PHP">PHP</option>
+                                            <option value="Ruby">Ruby</option>
+                                            <option value="Go">Go</option>
+                                            <option value="Rust">Rust</option>
+                                            <option value="Swift">Swift</option>
+                                            <option value="Kotlin">Kotlin</option>
+                                            <option value="TypeScript">TypeScript</option>
+                                            <option value="Scala">Scala</option>
+                                            <option value="R">R</option>
+                                            <option value="MATLAB">MATLAB</option>
+                                            <option value="Perl">Perl</option>
+                                            <option value="Shell Scripting">Shell Scripting</option>
+                                            <option value="Assembly">Assembly</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <div id="programming-languages-display" class="mt-2 flex flex-wrap gap-2"></div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="frameworks" class="block text-sm font-medium text-gray-700 mb-2">Frameworks & Tools</label>
+                                        <select id="frameworks" name="frameworks" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                            <option value="">Select Framework/Tool</option>
+                                            <option value="React">React</option>
+                                            <option value="Angular">Angular</option>
+                                            <option value="Vue.js">Vue.js</option>
+                                            <option value="Node.js">Node.js</option>
+                                            <option value="Django">Django</option>
+                                            <option value="Flask">Flask</option>
+                                            <option value="Spring Boot">Spring Boot</option>
+                                            <option value="Laravel">Laravel</option>
+                                            <option value="Express.js">Express.js</option>
+                                            <option value="ASP.NET">ASP.NET</option>
+                                            <option value="Ruby on Rails">Ruby on Rails</option>
+                                            <option value="Docker">Docker</option>
+                                            <option value="Kubernetes">Kubernetes</option>
+                                            <option value="AWS">AWS</option>
+                                            <option value="Azure">Azure</option>
+                                            <option value="Google Cloud">Google Cloud</option>
+                                            <option value="Jenkins">Jenkins</option>
+                                            <option value="GitLab CI/CD">GitLab CI/CD</option>
+                                            <option value="GitHub Actions">GitHub Actions</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <div id="frameworks-display" class="mt-2 flex flex-wrap gap-2"></div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="databases" class="block text-sm font-medium text-gray-700 mb-2">Databases</label>
+                                        <select id="databases" name="databases" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                            <option value="">Select Database</option>
+                                            <option value="MySQL">MySQL</option>
+                                            <option value="PostgreSQL">PostgreSQL</option>
+                                            <option value="MongoDB">MongoDB</option>
+                                            <option value="Oracle">Oracle</option>
+                                            <option value="SQL Server">SQL Server</option>
+                                            <option value="SQLite">SQLite</option>
+                                            <option value="Redis">Redis</option>
+                                            <option value="Cassandra">Cassandra</option>
+                                            <option value="Elasticsearch">Elasticsearch</option>
+                                            <option value="DynamoDB">DynamoDB</option>
+                                            <option value="Firebase">Firebase</option>
+                                            <option value="Neo4j">Neo4j</option>
+                                            <option value="InfluxDB">InfluxDB</option>
+                                            <option value="CouchDB">CouchDB</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <div id="databases-display" class="mt-2 flex flex-wrap gap-2"></div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="other-skills" class="block text-sm font-medium text-gray-700 mb-2">Other Skills</label>
+                                        <select id="other-skills" name="other_skills" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                            <option value="">Select Other Skill</option>
+                                            <option value="Git">Git</option>
+                                            <option value="Agile">Agile</option>
+                                            <option value="Scrum">Scrum</option>
+                                            <option value="UI/UX Design">UI/UX Design</option>
+                                            <option value="Figma">Figma</option>
+                                            <option value="Adobe Creative Suite">Adobe Creative Suite</option>
+                                            <option value="JIRA">JIRA</option>
+                                            <option value="Confluence">Confluence</option>
+                                            <option value="Slack">Slack</option>
+                                            <option value="Microsoft Office">Microsoft Office</option>
+                                            <option value="Google Workspace">Google Workspace</option>
+                                            <option value="Linux">Linux</option>
+                                            <option value="Windows">Windows</option>
+                                            <option value="macOS">macOS</option>
+                                            <option value="Machine Learning">Machine Learning</option>
+                                            <option value="Data Analysis">Data Analysis</option>
+                                            <option value="DevOps">DevOps</option>
+                                            <option value="CI/CD">CI/CD</option>
+                                            <option value="Microservices">Microservices</option>
+                                            <option value="REST APIs">REST APIs</option>
+                                            <option value="GraphQL">GraphQL</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <div id="other-skills-display" class="mt-2 flex flex-wrap gap-2"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Languages -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Languages</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="native-language" class="block text-sm font-medium text-gray-700 mb-2">Native Language</label>
+                                        <select id="native-language" name="native_language" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                            <option value="">Select Native Language</option>
+                                            <option value="Hindi">Hindi</option>
+                                            <option value="English">English</option>
+                                            <option value="Bengali">Bengali</option>
+                                            <option value="Telugu">Telugu</option>
+                                            <option value="Marathi">Marathi</option>
+                                            <option value="Tamil">Tamil</option>
+                                            <option value="Gujarati">Gujarati</option>
+                                            <option value="Kannada">Kannada</option>
+                                            <option value="Malayalam">Malayalam</option>
+                                            <option value="Punjabi">Punjabi</option>
+                                            <option value="Odia">Odia</option>
+                                            <option value="Assamese">Assamese</option>
+                                            <option value="Sanskrit">Sanskrit</option>
+                                            <option value="Urdu">Urdu</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <div id="native-language-display" class="mt-2 flex flex-wrap gap-2"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Volunteering -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Volunteering & Activities</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="volunteer-experience" class="block text-sm font-medium text-gray-700 mb-2">Volunteer Experience</label>
+                                        <textarea id="volunteer-experience" name="volunteer_experience" rows="3" placeholder="Describe any volunteer work, community service, or social activities..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="certifications" class="block text-sm font-medium text-gray-700 mb-2">Certifications</label>
+                                        <textarea id="certifications" name="certifications" rows="3" placeholder="List any relevant certifications, courses, or training programs..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="achievements" class="block text-sm font-medium text-gray-700 mb-2">Achievements & Awards</label>
+                                        <textarea id="achievements" name="achievements" rows="3" placeholder="List any awards, recognitions, or notable achievements..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between pt-8 border-t border-gray-200">
+                        <button type="button" id="prev-btn" class="px-6 py-3 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" style="display: none;">
+                            Previous
+                        </button>
+                        <button type="button" id="next-btn" class="px-8 py-3 bg-primary text-white rounded-lg hover:bg-secondary transition-colors font-medium">
+                            Continue
+                        </button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // File Upload Functionality
+    const dragDropArea = document.getElementById('drag-drop-area');
+    const imageInput = document.getElementById('profile-image');
+    const imagePreview = document.getElementById('image-preview');
+    const previewImg = document.getElementById('preview-img');
+    const removeImageBtn = document.getElementById('remove-image');
+    const imageUploadContainer = document.getElementById('image-upload-container');
+
+    // Drag and drop functionality
+    dragDropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dragDropArea.classList.add('border-primary', 'bg-blue-50');
+    });
+
+    dragDropArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove('border-primary', 'bg-blue-50');
+    });
+
+    dragDropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove('border-primary', 'bg-blue-50');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleFile(files[0]);
+        }
+    });
+
+    // Click to upload
+    dragDropArea.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleFile(e.target.files[0]);
+        }
+    });
+
+    // Handle file upload
+    function handleFile(file) {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                dragDropArea.classList.add('hidden');
+                imagePreview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Please select an image file.');
+        }
+    }
+
+    // Remove image
+    removeImageBtn.addEventListener('click', () => {
+        imagePreview.classList.add('hidden');
+        dragDropArea.classList.remove('hidden');
+        imageInput.value = '';
+        previewImg.src = '';
+    });
+
+    // Form validation and step navigation
+    const form = document.getElementById('signup-form');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    let currentStep = 1;
+
+    // Country-State Mapping
+    const countryStateMap = {
+        'India': ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Chandigarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Lakshadweep', 'Puducherry', 'Andaman and Nicobar Islands'],
+        'USA': ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
+        'UK': ['England', 'Scotland', 'Wales', 'Northern Ireland'],
+        'Canada': ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Nova Scotia', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Northwest Territories', 'Nunavut', 'Yukon'],
+        'Australia': ['New South Wales', 'Victoria', 'Queensland', 'Western Australia', 'South Australia', 'Tasmania', 'Australian Capital Territory', 'Northern Territory'],
+        'Germany': ['Baden-Württemberg', 'Bavaria', 'Berlin', 'Brandenburg', 'Bremen', 'Hamburg', 'Hesse', 'Lower Saxony', 'Mecklenburg-Vorpommern', 'North Rhine-Westphalia', 'Rhineland-Palatinate', 'Saarland', 'Saxony', 'Saxony-Anhalt', 'Schleswig-Holstein', 'Thuringia'],
+        'France': ['Auvergne-Rhône-Alpes', 'Bourgogne-Franche-Comté', 'Bretagne', 'Centre-Val de Loire', 'Corse', 'Grand Est', 'Hauts-de-France', 'Île-de-France', 'Normandie', 'Nouvelle-Aquitaine', 'Occitanie', 'Pays de la Loire', 'Provence-Alpes-Côte d\'Azur'],
+        'Japan': ['Hokkaido', 'Tohoku', 'Kanto', 'Chubu', 'Kansai', 'Chugoku', 'Shikoku', 'Kyushu'],
+        'China': ['Beijing', 'Tianjin', 'Hebei', 'Shanxi', 'Inner Mongolia', 'Liaoning', 'Jilin', 'Heilongjiang', 'Shanghai', 'Jiangsu', 'Zhejiang', 'Anhui', 'Fujian', 'Jiangxi', 'Shandong', 'Henan', 'Hubei', 'Hunan', 'Guangdong', 'Guangxi', 'Hainan', 'Chongqing', 'Sichuan', 'Guizhou', 'Yunnan', 'Tibet', 'Shaanxi', 'Gansu', 'Qinghai', 'Ningxia', 'Xinjiang'],
+        'Other': ['Other']
+    };
+
+    // State-City Mapping
+    const stateCityMap = {
+        'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Thane', 'Nashik', 'Aurangabad', 'Solapur', 'Kolhapur', 'Amravati', 'Nanded', 'Sangli-Miraj', 'Bhiwandi', 'Ulhasnagar', 'Malegaon', 'Jalgaon', 'Akola', 'Latur', 'Ahmednagar', 'Ichalkaranji', 'Parbhani', 'Dhule', 'Chandrapur', 'Ambernath', 'Bhusawal', 'Mira-Bhayandar', 'Bhiwandi-Nizampur', 'Wardha', 'Udgir', 'Hinganghat', 'Washim', 'Other'],
+        'Delhi': ['New Delhi', 'Delhi', 'North Delhi', 'South Delhi', 'East Delhi', 'West Delhi', 'Central Delhi', 'Shahdara', 'Dwarka', 'Rohini', 'Pitampura', 'Janakpuri', 'Lajpat Nagar', 'Defence Colony', 'Greater Kailash', 'Hauz Khas', 'Vasant Vihar', 'Other'],
+        'Karnataka': ['Bangalore', 'Mysore', 'Hubballi-Dharwad', 'Mangalore', 'Belgaum', 'Gulbarga', 'Davanagere', 'Bellary', 'Shivamogga', 'Tumkur', 'Raichur', 'Bidar', 'Hassan', 'Mandya', 'Chitradurga', 'Kolar', 'Udupi', 'Chikkamagaluru', 'Other'],
+        'Telangana': ['Hyderabad', 'Warangal', 'Karimnagar', 'Nizamabad', 'Adilabad', 'Khammam', 'Nalgonda', 'Medak', 'Mahbubnagar', 'Rangareddy', 'Other'],
+        'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli', 'Tiruppur', 'Vellore', 'Erode', 'Tirunelveli', 'Thoothukkudi', 'Dindigul', 'Thanjavur', 'Ranipet', 'Sivaganga', 'Karur', 'Namakkal', 'Other'],
+        'West Bengal': ['Kolkata', 'Howrah', 'Durgapur', 'Asansol', 'Siliguri', 'Bardhaman', 'Malda', 'Baharampur', 'Habra', 'Shantipur', 'Krishnanagar', 'Baranagar', 'Bhatpara', 'Panihati', 'Kamarhati', 'Bally', 'Howrah', 'Bidhannagar', 'Other'],
+        'Gujarat': ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot', 'Bhavnagar', 'Jamnagar', 'Anand', 'Bharuch', 'Gandhinagar', 'Nadiad', 'Surendranagar', 'Bharuch', 'Valsad', 'Navsari', 'Other'],
+        'Rajasthan': ['Jaipur', 'Jodhpur', 'Kota', 'Bikaner', 'Ajmer', 'Udaipur', 'Bhilwara', 'Alwar', 'Sri Ganganagar', 'Sikar', 'Bharatpur', 'Tonk', 'Sawai Madhopur', 'Other'],
+        'Uttar Pradesh': ['Lucknow', 'Kanpur', 'Ghaziabad', 'Agra', 'Varanasi', 'Meerut', 'Allahabad', 'Bareilly', 'Aligarh', 'Moradabad', 'Saharanpur', 'Gorakhpur', 'Faizabad', 'Muzaffarnagar', 'Etawah', 'Mathura', 'Firozabad', 'Other'],
+        'Madhya Pradesh': ['Bhopal', 'Indore', 'Jabalpur', 'Gwalior', 'Ujjain', 'Sagar', 'Ratlam', 'Satna', 'Murwara', 'Singrauli', 'Rewa', 'Neemuch', 'Mandsaur', 'Hoshangabad', 'Itarsi', 'Other'],
+        'Andhra Pradesh': ['Visakhapatnam', 'Vijayawada', 'Guntur', 'Nellore', 'Kurnool', 'Kadapa', 'Anantapur', 'Tirupati', 'Kakinada', 'Rajahmundry', 'Eluru', 'Ongole', 'Nandyal', 'Other'],
+        'Bihar': ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur', 'Purnia', 'Darbhanga', 'Arrah', 'Begusarai', 'Katihar', 'Munger', 'Chapra', 'Bettiah', 'Other'],
+        'Punjab': ['Ludhiana', 'Amritsar', 'Jalandhar', 'Patiala', 'Bathinda', 'Hoshiarpur', 'Pathankot', 'Moga', 'Malerkotla', 'Kapurthala', 'Barnala', 'Fazilka', 'Other'],
+        'Haryana': ['Faridabad', 'Gurgaon', 'Hisar', 'Rohtak', 'Panipat', 'Yamunanagar', 'Rewari', 'Karnal', 'Sonipat', 'Panchkula', 'Bhiwani', 'Ambala', 'Other'],
+        'Jharkhand': ['Ranchi', 'Jamshedpur', 'Dhanbad', 'Bokaro', 'Deoghar', 'Phusro', 'Hazaribagh', 'Giridih', 'Ramgarh', 'Medininagar', 'Chatra', 'Other'],
+        'Odisha': ['Bhubaneswar', 'Cuttack', 'Rourkela', 'Brahmapur', 'Sambalpur', 'Puri', 'Baleshwar', 'Baripada', 'Bhadrak', 'Balangir', 'Other'],
+        'Kerala': ['Kochi', 'Kozhikode', 'Thiruvananthapuram', 'Kollam', 'Thrissur', 'Palakkad', 'Alappuzha', 'Kottayam', 'Kannur', 'Kasaragod', 'Other'],
+        'Assam': ['Guwahati', 'Silchar', 'Dibrugarh', 'Jorhat', 'Nagaon', 'Tinsukia', 'Tezpur', 'Bongaigaon', 'Goalpara', 'Dhubri', 'Other'],
+        'Chhattisgarh': ['Raipur', 'Bhilai', 'Korba', 'Bilaspur', 'Durg', 'Rajnandgaon', 'Jagdalpur', 'Ambikapur', 'Mungeli', 'Bhatapara', 'Other'],
+        'Uttarakhand': ['Dehradun', 'Haridwar', 'Roorkee', 'Haldwani', 'Rudrapur', 'Kashipur', 'Rishikesh', 'Kotdwar', 'Ramnagar', 'Pithoragarh', 'Other'],
+        'Himachal Pradesh': ['Shimla', 'Mandi', 'Solan', 'Kullu', 'Chamba', 'Kangra', 'Una', 'Hamirpur', 'Bilaspur', 'Sirmaur', 'Other'],
+        'Jammu and Kashmir': ['Srinagar', 'Jammu', 'Anantnag', 'Baramulla', 'Pulwama', 'Kupwara', 'Budgam', 'Ganderbal', 'Bandipora', 'Shopian', 'Other'],
+        'Ladakh': ['Leh', 'Kargil', 'Other'],
+        'Chandigarh': ['Chandigarh', 'Other'],
+        'Dadra and Nagar Haveli': ['Silvassa', 'Other'],
+        'Daman and Diu': ['Daman', 'Diu', 'Other'],
+        'Lakshadweep': ['Kavaratti', 'Agatti', 'Other'],
+        'Puducherry': ['Puducherry', 'Karaikal', 'Mahe', 'Yanam', 'Other'],
+        'Andaman and Nicobar Islands': ['Port Blair', 'Other'],
+        'Goa': ['Panaji', 'Margao', 'Vasco da Gama', 'Mapusa', 'Ponda', 'Other'],
+        'Manipur': ['Imphal', 'Thoubal', 'Bishnupur', 'Churachandpur', 'Other'],
+        'Meghalaya': ['Shillong', 'Tura', 'Jowai', 'Nongstoin', 'Other'],
+        'Mizoram': ['Aizawl', 'Lunglei', 'Saiha', 'Champhai', 'Other'],
+        'Nagaland': ['Kohima', 'Dimapur', 'Mokokchung', 'Tuensang', 'Other'],
+        'Tripura': ['Agartala', 'Udaipur', 'Dharmanagar', 'Other'],
+        'Sikkim': ['Gangtok', 'Namchi', 'Mangan', 'Gyalshing', 'Other'],
+        'Arunachal Pradesh': ['Itanagar', 'Naharlagun', 'Pasighat', 'Other']
+    };
+
+    // Country-State-City functionality
+    const countrySelect = document.getElementById('country');
+    const stateSelect = document.getElementById('state');
+    const citySelect = document.getElementById('city');
+
+    countrySelect.addEventListener('change', function() {
+        const selectedCountry = this.value;
+        stateSelect.innerHTML = '<option value="">Select State</option>';
+        citySelect.innerHTML = '<option value="">Select City</option>';
+        
+        if (selectedCountry && countryStateMap[selectedCountry]) {
+            countryStateMap[selectedCountry].forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = state;
+                stateSelect.appendChild(option);
+            });
+        }
+    });
+
+    stateSelect.addEventListener('change', function() {
+        const selectedState = this.value;
+        citySelect.innerHTML = '<option value="">Select City</option>';
+        
+        if (selectedState && stateCityMap[selectedState]) {
+            stateCityMap[selectedState].forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+    });
+
+    // Experience Management
+    let experienceCounter = 1;
+    const addExperienceBtn = document.getElementById('add-experience-btn');
+    const additionalExperiencesContainer = document.getElementById('additional-experiences-container');
+
+    addExperienceBtn.addEventListener('click', function() {
+        experienceCounter++;
+        addExperienceSection(experienceCounter);
+    });
+
+    function addExperienceSection(counter) {
+        const experienceSection = document.createElement('div');
+        experienceSection.className = 'experience-section border border-gray-200 rounded-lg p-6 bg-gray-50';
+        experienceSection.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-semibold text-gray-900">Experience ${counter}</h4>
+                <button type="button" class="remove-experience-btn text-red-500 hover:text-red-700 transition-colors p-2" onclick="removeExperience(this)">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
+                    <input type="text" name="job_title_${counter}" placeholder="e.g., Software Engineer, Marketing Manager" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                    <input type="text" name="company_${counter}" placeholder="Company name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                    <input type="date" name="start_date_${counter}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                    <input type="date" name="end_date_${counter}" placeholder="Leave empty if currently working" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Job Description</label>
+                    <textarea name="job_description_${counter}" rows="4" placeholder="Describe your responsibilities, achievements, and key contributions..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                </div>
+            </div>
+        `;
+        
+        additionalExperiencesContainer.appendChild(experienceSection);
+    }
+
+    function removeExperience(button) {
+        const experienceSection = button.closest('.experience-section');
+        experienceSection.remove();
+        
+        // Update experience numbers
+        const experienceSections = additionalExperiencesContainer.querySelectorAll('.experience-section');
+        experienceSections.forEach((section, index) => {
+            const title = section.querySelector('h4');
+            title.textContent = `Experience ${index + 2}`;
+        });
+        
+        experienceCounter = Math.max(1, experienceCounter - 1);
+    }
+
+    // Education Management
+    let educationCounter = 1;
+    const addEducationBtn = document.getElementById('add-education-btn');
+    const additionalEducationContainer = document.getElementById('additional-education-container');
+
+    addEducationBtn.addEventListener('click', function() {
+        educationCounter++;
+        addEducationSection(educationCounter);
+    });
+
+    function addEducationSection(counter) {
+        const educationSection = document.createElement('div');
+        educationSection.className = 'education-section border border-gray-200 rounded-lg p-6 bg-gray-50';
+        educationSection.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-semibold text-gray-900">Education ${counter}</h4>
+                <button type="button" class="remove-education-btn text-red-500 hover:text-red-700 transition-colors p-2" onclick="removeEducation(this)">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Degree/Course</label>
+                    <input type="text" name="degree_${counter}" placeholder="e.g., Diploma, Certification" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Institution</label>
+                    <input type="text" name="institution_${counter}" placeholder="Institution name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
+                    <input type="text" name="specialization_${counter}" placeholder="e.g., Computer Science, Mechanical Engineering" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Graduation Year</label>
+                    <select name="graduation_year_${counter}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                        <option value="">Select Year</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2015">2015</option>
+                        <option value="2014">2014</option>
+                        <option value="2013">2013</option>
+                        <option value="2012">2012</option>
+                        <option value="2011">2011</option>
+                        <option value="2010">2010</option>
+                        <option value="2009">2009</option>
+                        <option value="2008">2008</option>
+                        <option value="2007">2007</option>
+                        <option value="2006">2006</option>
+                        <option value="2005">2005</option>
+                        <option value="Ongoing">Currently Studying</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">CGPA/Percentage</label>
+                    <input type="text" name="cgpa_${counter}" placeholder="e.g., 8.5/10 or 85%" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Board/University</label>
+                    <input type="text" name="board_${counter}" placeholder="e.g., CBSE, AICTE, UGC" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Education Description</label>
+                    <textarea name="education_description_${counter}" rows="3" placeholder="Describe your educational achievements, relevant coursework, or any special projects..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                </div>
+            </div>
+        `;
+        
+        additionalEducationContainer.appendChild(educationSection);
+    }
+
+    function removeEducation(button) {
+        const educationSection = button.closest('.education-section');
+        educationSection.remove();
+        
+        // Update education numbers
+        const educationSections = additionalEducationContainer.querySelectorAll('.education-section');
+        educationSections.forEach((section, index) => {
+            const title = section.querySelector('h4');
+            title.textContent = `Education ${index + 2}`;
+        });
+        
+        educationCounter = Math.max(1, educationCounter - 1);
+    }
+
+    // Project Management
+    let projectCounter = 1;
+    const addProjectBtn = document.getElementById('add-project-btn');
+    const additionalProjectsContainer = document.getElementById('additional-projects-container');
+
+    addProjectBtn.addEventListener('click', function() {
+        projectCounter++;
+        addProjectSection(projectCounter);
+    });
+
+    function addProjectSection(counter) {
+        const projectSection = document.createElement('div');
+        projectSection.className = 'project-section border border-gray-200 rounded-lg p-6 bg-gray-50';
+        projectSection.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-semibold text-gray-900">Project ${counter}</h4>
+                <button type="button" class="remove-project-btn text-red-500 hover:text-red-700 transition-colors p-2" onclick="removeProject(this)">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Project Title</label>
+                    <input type="text" name="project_title_${counter}" placeholder="e.g., E-commerce Website, Mobile App" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                    <input type="text" name="project_duration_${counter}" placeholder="e.g., 3 months, 6 months" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Project Description</label>
+                    <textarea name="project_description_${counter}" rows="4" placeholder="Describe the project, your role, technologies used, and outcomes..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Project URL</label>
+                    <input type="url" name="project_url_${counter}" placeholder="https://github.com/username/project" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Technologies Used</label>
+                    <input type="text" name="project_technologies_${counter}" placeholder="e.g., React, Node.js, MongoDB" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                </div>
+            </div>
+        `;
+        
+        additionalProjectsContainer.appendChild(projectSection);
+    }
+
+    function removeProject(button) {
+        const projectSection = button.closest('.project-section');
+        projectSection.remove();
+        
+        // Update project numbers
+        const projectSections = additionalProjectsContainer.querySelectorAll('.project-section');
+        projectSections.forEach((section, index) => {
+            const title = section.querySelector('h4');
+            title.textContent = `Project ${index + 2}`;
+        });
+        
+        projectCounter = Math.max(1, projectCounter - 1);
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (validateStep(currentStep)) {
+            if (currentStep < 5) {
+                currentStep++;
+                showStep(currentStep);
+                updateProgress();
+            } else {
+                // Final step - submit form
+                alert('Form completed! Submitting your profile...');
+                // Here you would typically submit the form data
+            }
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+            updateProgress();
+        }
+    });
+
+    function showStep(step) {
+        // Hide all steps
+        document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
+        
+        // Show current step
+        document.getElementById(`step-${step}`).classList.remove('hidden');
+        
+        // Update button text
+        if (step === 5) {
+            nextBtn.textContent = 'Submit';
+        } else {
+            nextBtn.textContent = 'Continue';
+        }
+        
+        // Show/hide previous button
+        prevBtn.style.display = step === 1 ? 'none' : 'block';
+    }
+
+    function updateProgress() {
+        const steps = document.querySelectorAll('.flex.items-center.min-w-fit');
+        steps.forEach((step, index) => {
+            const stepNumber = index + 1;
+            const circle = step.querySelector('div');
+            const text = step.querySelector('span');
+            
+            if (stepNumber < currentStep) {
+                // Completed step
+                circle.className = 'w-8 h-8 md:w-10 md:h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-semibold text-sm md:text-base';
+                text.className = 'ml-2 text-xs md:text-sm font-medium text-green-500';
+            } else if (stepNumber === currentStep) {
+                // Current step
+                circle.className = 'w-8 h-8 md:w-10 md:h-10 bg-primary text-white rounded-full flex items-center justify-center font-semibold text-sm md:text-base';
+                text.className = 'ml-2 text-xs md:text-sm font-medium text-primary';
+            } else {
+                // Future step
+                circle.className = 'w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base';
+                text.className = 'ml-2 text-xs md:text-sm font-medium text-gray-500';
+            }
+        });
+    }
+
+    function validateStep(step) {
+        // All fields are now optional - no validation required
+        return true;
+    }
+
+    // Framework mapping based on programming language
+    const languageFrameworkMap = {
+        'Python': ['Django', 'Flask', 'FastAPI', 'Pyramid', 'Bottle', 'Tornado', 'CherryPy', 'Web2py', 'Dash', 'Streamlit', 'Jupyter', 'Pandas', 'NumPy', 'SciPy', 'Matplotlib', 'Seaborn', 'Scikit-learn', 'TensorFlow', 'PyTorch', 'Keras', 'Celery', 'Redis', 'PostgreSQL', 'MySQL', 'MongoDB', 'SQLite', 'AWS', 'Azure', 'Google Cloud', 'Docker', 'Kubernetes', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'JavaScript': ['React', 'Angular', 'Vue.js', 'Node.js', 'Express.js', 'Next.js', 'Nuxt.js', 'Svelte', 'Ember.js', 'Backbone.js', 'jQuery', 'TypeScript', 'Webpack', 'Babel', 'ESLint', 'Prettier', 'Jest', 'Mocha', 'Chai', 'Cypress', 'Playwright', 'Puppeteer', 'Socket.io', 'GraphQL', 'Apollo', 'Redux', 'MobX', 'Zustand', 'Tailwind CSS', 'Bootstrap', 'Material-UI', 'Ant Design', 'Docker', 'AWS', 'Azure', 'Google Cloud'],
+        'Java': ['Spring Boot', 'Spring MVC', 'Spring Security', 'Spring Data', 'Hibernate', 'JPA', 'Maven', 'Gradle', 'JUnit', 'Mockito', 'Selenium', 'Cucumber', 'Jenkins', 'SonarQube', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Apache Tomcat', 'WildFly', 'Jetty', 'Netty', 'Vert.x', 'Quarkus', 'Micronaut', 'Dropwizard', 'Play Framework', 'Struts', 'JSF', 'Vaadin'],
+        'C++': ['Qt', 'Boost', 'STL', 'OpenCV', 'OpenGL', 'Vulkan', 'DirectX', 'SFML', 'SDL2', 'Catch2', 'Google Test', 'CMake', 'Make', 'Ninja', 'Conan', 'vcpkg', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'C#': ['ASP.NET', 'ASP.NET Core', 'Entity Framework', 'LINQ', 'WPF', 'WinForms', 'Xamarin', 'Blazor', 'SignalR', 'Unity', 'MonoGame', 'NUnit', 'xUnit', 'Moq', 'SpecFlow', 'Selenium', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'PHP': ['Laravel', 'Symfony', 'CodeIgniter', 'CakePHP', 'Zend Framework', 'Yii', 'Slim', 'Lumen', 'Composer', 'PHPUnit', 'Behat', 'Selenium', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'Ruby': ['Ruby on Rails', 'Sinatra', 'Hanami', 'Grape', 'RSpec', 'Capybara', 'Cucumber', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'Go': ['Gin', 'Echo', 'Fiber', 'Chi', 'Gorilla Mux', 'Beego', 'Revel', 'Buffalo', 'Testify', 'Ginkgo', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'Rust': ['Actix-web', 'Rocket', 'Warp', 'Axum', 'Tide', 'Tokio', 'Serde', 'Cargo', 'Criterion', 'Mockall', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'Swift': ['SwiftUI', 'UIKit', 'Core Data', 'Combine', 'XCTest', 'Quick', 'Nimble', 'CocoaPods', 'Swift Package Manager', 'Carthage', 'Fastlane', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'Kotlin': ['Spring Boot', 'Ktor', 'Javalin', 'SparkJava', 'Micronaut', 'Quarkus', 'JUnit', 'MockK', 'Spek', 'Kotest', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'TypeScript': ['React', 'Angular', 'Vue.js', 'Node.js', 'Express.js', 'Next.js', 'Nuxt.js', 'Svelte', 'Ember.js', 'Backbone.js', 'jQuery', 'Webpack', 'Babel', 'ESLint', 'Prettier', 'Jest', 'Mocha', 'Chai', 'Cypress', 'Playwright', 'Puppeteer', 'Socket.io', 'GraphQL', 'Apollo', 'Redux', 'MobX', 'Zustand', 'Tailwind CSS', 'Bootstrap', 'Material-UI', 'Ant Design', 'Docker', 'AWS', 'Azure', 'Google Cloud'],
+        'Scala': ['Play Framework', 'Akka', 'Spark', 'Kafka', 'Slick', 'Cats', 'Zio', 'ScalaTest', 'Specs2', 'Mockito', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'R': ['Shiny', 'R Markdown', 'RStudio', 'Tidyverse', 'ggplot2', 'dplyr', 'tidyr', 'readr', 'purrr', 'stringr', 'forcats', 'lubridate', 'testthat', 'Docker', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'MATLAB': ['Simulink', 'Stateflow', 'Simscape', 'Robotics System Toolbox', 'Computer Vision Toolbox', 'Image Processing Toolbox', 'Signal Processing Toolbox', 'Statistics and Machine Learning Toolbox', 'Deep Learning Toolbox', 'Neural Network Toolbox', 'Docker', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'Perl': ['Catalyst', 'Dancer', 'Mojolicious', 'Mason', 'Template Toolkit', 'DBI', 'Test::More', 'Test::Simple', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'Shell Scripting': ['Bash', 'Zsh', 'Fish', 'PowerShell', 'Ansible', 'Terraform', 'Chef', 'Puppet', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions'],
+        'Assembly': ['NASM', 'GAS', 'MASM', 'FASM', 'YASM', 'LLVM', 'GCC', 'Clang', 'Make', 'CMake', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions']
+    };
+
+    // Skills Management
+    function addSkill(selectElement, displayElement, skillType) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        if (selectedOption && selectedOption.value) {
+            // Check if skill already exists
+            const existingSkills = displayElement.querySelectorAll('.skill-tag');
+            const skillExists = Array.from(existingSkills).some(tag => tag.dataset.skill === selectedOption.value);
+            
+            if (!skillExists) {
+                const skillTag = document.createElement('div');
+                skillTag.className = 'skill-tag inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 hover:bg-blue-200 transition-colors';
+                skillTag.dataset.skill = selectedOption.value;
+                skillTag.innerHTML = `
+                    ${selectedOption.value}
+                    <button type="button" class="ml-2 text-blue-600 hover:text-blue-800" onclick="removeSkill(this, '${skillType}')">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                `;
+                displayElement.appendChild(skillTag);
+            }
+            
+            // Reset select to default
+            selectElement.value = '';
+        }
+    }
+
+    function updateFrameworksBasedOnLanguage() {
+        const programmingLanguageSelect = document.getElementById('programming-languages');
+        const frameworksSelect = document.getElementById('frameworks');
+        const selectedLanguage = programmingLanguageSelect.value;
+        
+        // Clear current frameworks
+        frameworksSelect.innerHTML = '<option value="">Select Framework/Tool</option>';
+        
+        if (selectedLanguage && languageFrameworkMap[selectedLanguage]) {
+            // Add frameworks for selected language
+            languageFrameworkMap[selectedLanguage].forEach(framework => {
+                const option = document.createElement('option');
+                option.value = framework;
+                option.textContent = framework;
+                frameworksSelect.appendChild(option);
+            });
+        } else {
+            // Add all frameworks if no language selected or language not in map
+            const allFrameworks = ['React', 'Angular', 'Vue.js', 'Node.js', 'Django', 'Flask', 'Spring Boot', 'Laravel', 'Express.js', 'ASP.NET', 'Ruby on Rails', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Jenkins', 'GitLab CI/CD', 'GitHub Actions', 'Other'];
+            allFrameworks.forEach(framework => {
+                const option = document.createElement('option');
+                option.value = framework;
+                option.textContent = framework;
+                frameworksSelect.appendChild(option);
+            });
+        }
+    }
+
+    function removeSkill(button, skillType) {
+        const skillTag = button.closest('.skill-tag');
+        skillTag.remove();
+    }
+
+    function addNativeLanguage() {
+        const nativeLanguageSelect = document.getElementById('native-language');
+        const nativeLanguageDisplay = document.getElementById('native-language-display');
+        const selectedOption = nativeLanguageSelect.options[nativeLanguageSelect.selectedIndex];
+        
+        if (selectedOption && selectedOption.value) {
+            // Check if language already exists
+            const existingLanguages = nativeLanguageDisplay.querySelectorAll('.language-tag');
+            const languageExists = Array.from(existingLanguages).some(tag => tag.dataset.language === selectedOption.value);
+            
+            if (!languageExists) {
+                const languageTag = document.createElement('div');
+                languageTag.className = 'language-tag inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200 hover:bg-green-200 transition-colors';
+                languageTag.dataset.language = selectedOption.value;
+                languageTag.innerHTML = `
+                    ${selectedOption.value}
+                    <button type="button" class="ml-2 text-green-600 hover:text-green-800" onclick="removeNativeLanguage('${selectedOption.value}')">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                `;
+                nativeLanguageDisplay.appendChild(languageTag);
+            }
+            
+            // Reset select to default
+            nativeLanguageSelect.value = '';
+        }
+    }
+
+    function removeNativeLanguage(languageValue) {
+        const nativeLanguageDisplay = document.getElementById('native-language-display');
+        const languageTag = nativeLanguageDisplay.querySelector(`[data-language="${languageValue}"]`);
+        
+        if (languageTag) {
+            languageTag.remove();
+        }
+    }
+
+    // Add event listeners for skill dropdowns
+    document.addEventListener('DOMContentLoaded', function() {
+        const nativeLanguageSelect = document.getElementById('native-language');
+        const programmingLanguagesSelect = document.getElementById('programming-languages');
+        const frameworksSelect = document.getElementById('frameworks');
+        const databasesSelect = document.getElementById('databases');
+        const otherSkillsSelect = document.getElementById('other-skills');
+        
+        const nativeLanguageDisplay = document.getElementById('native-language-display');
+        const programmingLanguagesDisplay = document.getElementById('programming-languages-display');
+        const frameworksDisplay = document.getElementById('frameworks-display');
+        const databasesDisplay = document.getElementById('databases-display');
+        const otherSkillsDisplay = document.getElementById('other-skills-display');
+
+        nativeLanguageSelect.addEventListener('change', () => {
+            addNativeLanguage();
+        });
+
+        programmingLanguagesSelect.addEventListener('change', () => {
+            addSkill(programmingLanguagesSelect, programmingLanguagesDisplay, 'programming-languages');
+            updateFrameworksBasedOnLanguage();
+        });
+        
+        frameworksSelect.addEventListener('change', () => {
+            addSkill(frameworksSelect, frameworksDisplay, 'frameworks');
+        });
+        
+        databasesSelect.addEventListener('change', () => {
+            addSkill(databasesSelect, databasesDisplay, 'databases');
+        });
+        
+        otherSkillsSelect.addEventListener('change', () => {
+            addSkill(otherSkillsSelect, otherSkillsDisplay, 'other-skills');
+        });
+    });
+</script>
+<script src="{% static 'js/job-signup.js' %}"></script>
+{% endblock %} 

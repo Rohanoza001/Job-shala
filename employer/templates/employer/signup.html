@@ -1,0 +1,689 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Employer Signup - Job Shala{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Create Your Employer Account</h1>
+            <p class="text-gray-600">Complete your profile to start posting jobs and finding candidates</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="mb-8">
+                            <div class="flex items-center justify-center space-x-2 md:space-x-4 overflow-x-auto">
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-primary text-white rounded-full flex items-center justify-center font-semibold text-sm md:text-base">1</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-primary">Personal Info</span>
+                    </div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base">2</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-gray-500">Business Contact</span>
+                    </div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base">3</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-gray-500">Address</span>
+                    </div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base">4</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-gray-500">GST & Security</span>
+                    </div>
+                    <div class="w-8 md:w-16 h-1 bg-gray-200 rounded"></div>
+                    <div class="flex items-center min-w-fit">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base">5</div>
+                        <span class="ml-2 text-xs md:text-sm font-medium text-gray-500">Verification</span>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <form id="employer-signup-form" class="space-y-8">
+                <!-- Step 1: Personal Information -->
+                <div id="step-1" class="step active">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
+                    
+                    <!-- Company Logo Upload -->
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-4">Company Logo</label>
+                        <div id="logo-upload-container" class="relative">
+                            <!-- Drag & Drop Area -->
+                            <div id="drag-drop-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer">
+                                <div class="space-y-4">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-lg font-medium text-gray-900">Upload your company logo</p>
+                                        <p class="text-sm text-gray-500">Drag and drop your logo here, or click to browse</p>
+                                    </div>
+                                    <input type="file" id="company-logo" accept="image/*" class="hidden">
+                                </div>
+                            </div>
+                            
+                            <!-- Logo Preview (Hidden by default) -->
+                            <div id="logo-preview" class="hidden relative group">
+                                <img id="preview-img" src="" alt="Logo preview" class="w-32 h-32 rounded-full object-cover mx-auto">
+                                <button type="button" id="remove-logo" class="absolute bottom-0 right-1/2 transform translate-x-1/2 translate-y-1/2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-all duration-200 opacity-0 group-hover:opacity-100">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information Fields -->
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                                <input type="text" id="first-name" name="first_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                                <input type="text" id="last-name" name="last_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            
+                            <div>
+                                <label for="designation" class="block text-sm font-medium text-gray-700 mb-2">Designation</label>
+                                <input type="text" id="designation" name="designation" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="e.g., HR Manager, CEO, Founder">
+                            </div>
+                            
+                            <div>
+                                <label for="department" class="block text-sm font-medium text-gray-700 mb-2">Department</label>
+                                <select id="department" name="department" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    <option value="">Select Department</option>
+                                    <option value="Human Resources">Human Resources</option>
+                                    <option value="Recruitment">Recruitment</option>
+                                    <option value="Management">Management</option>
+                                    <option value="Operations">Operations</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="IT">IT</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Legal">Legal</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Business Contact -->
+                <div id="step-2" class="step hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Business Contact Information</h2>
+                    
+                    <!-- Company Information -->
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="company-name" class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                                <input type="text" id="company-name" name="company_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            
+                            <div>
+                                <label for="industry" class="block text-sm font-medium text-gray-700 mb-2">Industry</label>
+                                <select id="industry" name="industry" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    <option value="">Select Industry</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Manufacturing">Manufacturing</option>
+                                    <option value="Retail">Retail</option>
+                                    <option value="Consulting">Consulting</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Real Estate">Real Estate</option>
+                                    <option value="Transportation">Transportation</option>
+                                    <option value="Energy">Energy</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Non-profit">Non-profit</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="company-size" class="block text-sm font-medium text-gray-700 mb-2">Company Size</label>
+                                <select id="company-size" name="company_size" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    <option value="">Select Company Size</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-500">201-500 employees</option>
+                                    <option value="501-1000">501-1000 employees</option>
+                                    <option value="1000+">1000+ employees</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="founded-year" class="block text-sm font-medium text-gray-700 mb-2">Founded Year</label>
+                                <input type="number" id="founded-year" name="founded_year" min="1900" max="2024" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="company-description" class="block text-sm font-medium text-gray-700 mb-2">Company Description</label>
+                            <textarea id="company-description" name="company_description" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="Tell us about your company..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Company Contact Information -->
+                    <div class="space-y-6 mt-8">
+                        <h3 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">Contact Details</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="company-email" class="block text-sm font-medium text-gray-700 mb-2">Company Email</label>
+                                <input type="email" id="company-email" name="company_email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="hr@company.com">
+                            </div>
+                            
+                            <div>
+                                <label for="company-phone" class="block text-sm font-medium text-gray-700 mb-2">Company Phone</label>
+                                <input type="tel" id="company-phone" name="company_phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="+1 (555) 123-4567">
+                            </div>
+                            
+                            <div>
+                                <label for="company-fax" class="block text-sm font-medium text-gray-700 mb-2">Company Fax (Optional)</label>
+                                <input type="tel" id="company-fax" name="company_fax" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="+1 (555) 123-4568">
+                            </div>
+                            
+                            <div>
+                                <label for="company-website" class="block text-sm font-medium text-gray-700 mb-2">Company Website</label>
+                                <input type="url" id="company-website" name="company_website" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="https://www.company.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Address Information -->
+                <div id="step-3" class="step hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Address Information</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="country" class="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                                <select id="country" name="country" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    <option value="">Select Country</option>
+                                    <option value="India">India</option>
+                                    <option value="United States">United States</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="France">France</option>
+                                    <option value="Japan">Japan</option>
+                                    <option value="China">China</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="state" class="block text-sm font-medium text-gray-700 mb-2">State</label>
+                                <select id="state" name="state" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    <option value="">Select State</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="city" class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                                <select id="city" name="city" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="pincode" class="block text-sm font-medium text-gray-700 mb-2">Pincode</label>
+                                <input type="text" id="pincode" name="pincode" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Full Address</label>
+                            <textarea id="address" name="address" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="Enter your complete address..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: GST & Security -->
+                <div id="step-4" class="step hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">GST & Account Security</h2>
+                    
+                    <!-- GST Information -->
+                    <div class="space-y-6 mb-8">
+                        <h3 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">GST Information</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Do you have a GST Number?</label>
+                                <div class="flex space-x-4">
+                                    <label class="flex items-center">
+                                        <input type="radio" name="has_gst" value="yes" class="mr-2 text-primary focus:ring-primary" onchange="toggleGSTInput()">
+                                        <span class="text-sm text-gray-700">Yes, I have a GST Number</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="has_gst" value="no" class="mr-2 text-primary focus:ring-primary" onchange="toggleGSTInput()">
+                                        <span class="text-sm text-gray-700">No, I don't have a GST Number</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div id="gst-input-container" class="hidden">
+                                <label for="gst-number" class="block text-sm font-medium text-gray-700 mb-2">GST Number</label>
+                                <input type="text" id="gst-number" name="gst_number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="e.g., 22AAAAA0000A1Z5">
+                                <p class="text-xs text-gray-500 mt-1">Enter your 15-digit GST number</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Security -->
+                    <div class="space-y-6">
+                        <h3 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">Account Security</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                <input type="password" id="password" name="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                            
+                            <div>
+                                <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                                <input type="password" id="confirm-password" name="confirm_password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Verification -->
+                <div id="step-5" class="step hidden">
+                    <div class="text-center py-12">
+                        <!-- Success Icon -->
+                        <div class="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        
+                        <!-- Success Message -->
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Account Created Successfully!</h2>
+                        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                            Thank you for creating your employer account. Your account has been submitted for verification.
+                        </p>
+                        
+                        <!-- Verification Details -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8 max-w-2xl mx-auto">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-blue-900 mb-2">Verification Process</h3>
+                                    <p class="text-blue-800 mb-3">
+                                        Your account will be verified and approved within <strong>24-48 hours</strong>. Our team will review your information and contact you if any additional details are needed.
+                                    </p>
+                                    <ul class="text-sm text-blue-700 space-y-1">
+                                        <li>• We'll verify your company details and contact information</li>
+                                        <li>• You'll receive an email confirmation once approved</li>
+                                        <li>• You can start posting jobs immediately after approval</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Next Steps -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 max-w-2xl mx-auto">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">What's Next?</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="font-medium text-gray-900">Wait for Approval</p>
+                                    <p class="text-gray-600">24-48 hours</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="font-medium text-gray-900">Email Confirmation</p>
+                                    <p class="text-gray-600">Account approved</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="font-medium text-gray-900">Start Posting Jobs</p>
+                                    <p class="text-gray-600">Find candidates</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex justify-center space-x-4 mt-8">
+                            <button type="button" id="go-home-btn" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                                Go to Homepage
+                            </button>
+                            <button type="button" id="contact-support-btn" class="bg-gray-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                Contact Support
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between pt-6">
+                    <button type="button" id="prev-btn" class="bg-gray-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 hidden">
+                        Previous
+                    </button>
+                    <button type="button" id="next-btn" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2 ml-auto">
+                        Next
+                    </button>
+                    <button type="submit" id="submit-btn" class="bg-primary text-white px-8 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2 hidden">
+                        Create Employer Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Logo upload functionality
+    const dragDropArea = document.getElementById('drag-drop-area');
+    const logoInput = document.getElementById('company-logo');
+    const logoPreview = document.getElementById('logo-preview');
+    const previewImg = document.getElementById('preview-img');
+    const removeLogoBtn = document.getElementById('remove-logo');
+    const logoUploadContainer = document.getElementById('logo-upload-container');
+
+    // Drag and drop functionality
+    dragDropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dragDropArea.classList.add('border-primary', 'bg-blue-50');
+    });
+
+    dragDropArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove('border-primary', 'bg-blue-50');
+    });
+
+    dragDropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove('border-primary', 'bg-blue-50');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleFile(files[0]);
+        }
+    });
+
+    // Click to upload
+    dragDropArea.addEventListener('click', () => {
+        logoInput.click();
+    });
+
+    logoInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleFile(e.target.files[0]);
+        }
+    });
+
+    // Handle file upload
+    function handleFile(file) {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                dragDropArea.classList.add('hidden');
+                logoPreview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Please select an image file.');
+        }
+    }
+
+    // Remove logo
+    removeLogoBtn.addEventListener('click', () => {
+        logoPreview.classList.add('hidden');
+        dragDropArea.classList.remove('hidden');
+        logoInput.value = '';
+        previewImg.src = '';
+    });
+
+    // Country-State-City dropdown functionality
+    const countrySelect = document.getElementById('country');
+    const stateSelect = document.getElementById('state');
+    const citySelect = document.getElementById('city');
+
+    const stateData = {
+        'India': [
+            'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+            'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand',
+            'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
+            'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+            'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
+            'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
+        ],
+        'United States': [
+            'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+            'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia',
+            'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
+            'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland',
+            'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri',
+            'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
+            'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio',
+            'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina',
+            'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+            'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+        ]
+    };
+
+    const cityData = {
+        'Andhra Pradesh': ['Visakhapatnam', 'Vijayawada', 'Guntur', 'Nellore', 'Kurnool'],
+        'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Thane', 'Nashik'],
+        'Karnataka': ['Bangalore', 'Mysore', 'Hubli', 'Mangalore', 'Belgaum'],
+        'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli'],
+        'Telangana': ['Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar', 'Ramagundam'],
+        'Gujarat': ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot', 'Bhavnagar'],
+        'Uttar Pradesh': ['Lucknow', 'Kanpur', 'Ghaziabad', 'Agra', 'Varanasi'],
+        'West Bengal': ['Kolkata', 'Howrah', 'Durgapur', 'Asansol', 'Siliguri'],
+        'Rajasthan': ['Jaipur', 'Jodhpur', 'Kota', 'Bikaner', 'Ajmer'],
+        'Madhya Pradesh': ['Bhopal', 'Indore', 'Jabalpur', 'Gwalior', 'Ujjain'],
+        'California': ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento', 'Oakland'],
+        'New York': ['New York City', 'Buffalo', 'Rochester', 'Yonkers', 'Syracuse'],
+        'Texas': ['Houston', 'San Antonio', 'Dallas', 'Austin', 'Fort Worth'],
+        'Florida': ['Miami', 'Orlando', 'Tampa', 'Jacksonville', 'Fort Lauderdale']
+    };
+
+    function updateStates() {
+        const selectedCountry = countrySelect.value;
+        stateSelect.innerHTML = '<option value="">Select State</option>';
+        citySelect.innerHTML = '<option value="">Select City</option>';
+        
+        if (selectedCountry && stateData[selectedCountry]) {
+            stateData[selectedCountry].forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = state;
+                stateSelect.appendChild(option);
+            });
+        }
+    }
+
+    function updateCities() {
+        const selectedState = stateSelect.value;
+        citySelect.innerHTML = '<option value="">Select City</option>';
+        
+        if (selectedState && cityData[selectedState]) {
+            cityData[selectedState].forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+    }
+
+    countrySelect.addEventListener('change', updateStates);
+    stateSelect.addEventListener('change', updateCities);
+
+    // GST Input Toggle Function
+    function toggleGSTInput() {
+        const gstInputContainer = document.getElementById('gst-input-container');
+        const hasGSTYes = document.querySelector('input[name="has_gst"][value="yes"]');
+        const hasGSTNo = document.querySelector('input[name="has_gst"][value="no"]');
+        const gstNumberInput = document.getElementById('gst-number');
+        
+        if (hasGSTYes.checked) {
+            gstInputContainer.classList.remove('hidden');
+            gstNumberInput.focus();
+        } else if (hasGSTNo.checked) {
+            gstInputContainer.classList.add('hidden');
+            gstNumberInput.value = '';
+        }
+    }
+
+    // Step Navigation
+    const form = document.getElementById('employer-signup-form');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    let currentStep = 1;
+    const totalSteps = 5;
+
+    function showStep(stepNumber) {
+        // Hide all steps
+        for (let i = 1; i <= totalSteps; i++) {
+            document.getElementById(`step-${i}`).classList.add('hidden');
+        }
+        
+        // Show current step
+        document.getElementById(`step-${stepNumber}`).classList.remove('hidden');
+        
+        // Update progress indicators
+        updateProgressIndicators(stepNumber);
+        
+        // Update navigation buttons
+        updateNavigationButtons(stepNumber);
+    }
+
+    function updateProgressIndicators(stepNumber) {
+        const progressSteps = document.querySelectorAll('.flex.items-center.min-w-fit');
+        
+        progressSteps.forEach((step, index) => {
+            const stepNumberElement = step.querySelector('div');
+            const stepText = step.querySelector('span');
+            
+            if (index + 1 < stepNumber) {
+                // Completed steps
+                stepNumberElement.className = 'w-8 h-8 md:w-10 md:h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-semibold text-sm md:text-base';
+                stepText.className = 'ml-2 text-xs md:text-sm font-medium text-green-500';
+            } else if (index + 1 === stepNumber) {
+                // Current step
+                stepNumberElement.className = 'w-8 h-8 md:w-10 md:h-10 bg-primary text-white rounded-full flex items-center justify-center font-semibold text-sm md:text-base';
+                stepText.className = 'ml-2 text-xs md:text-sm font-medium text-primary';
+            } else {
+                // Future steps
+                stepNumberElement.className = 'w-8 h-8 md:w-10 md:h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-semibold text-sm md:text-base';
+                stepText.className = 'ml-2 text-xs md:text-sm font-medium text-gray-500';
+            }
+        });
+    }
+
+    function updateNavigationButtons(stepNumber) {
+        if (stepNumber === 1) {
+            prevBtn.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+        } else if (stepNumber === 4) {
+            prevBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            submitBtn.classList.remove('hidden');
+        } else if (stepNumber === 5) {
+            prevBtn.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            submitBtn.classList.add('hidden');
+        } else {
+            prevBtn.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+        }
+    }
+
+    // Event listeners for navigation
+    nextBtn.addEventListener('click', () => {
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
+
+    // Submit button event listener
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent form submission
+        // Show the verification step
+        currentStep = 5;
+        showStep(currentStep);
+    });
+
+    // Action buttons in final step
+    const goHomeBtn = document.getElementById('go-home-btn');
+    const contactSupportBtn = document.getElementById('contact-support-btn');
+
+    goHomeBtn.addEventListener('click', () => {
+        window.location.href = '/';
+    });
+
+    contactSupportBtn.addEventListener('click', () => {
+        // You can redirect to contact page or open contact modal
+        alert('Contact support functionality will be implemented here.');
+    });
+
+    // Form submit event listener
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default form submission
+        // Show the verification step
+        currentStep = 5;
+        showStep(currentStep);
+    });
+
+    // Initialize first step
+    showStep(1);
+</script>
+<script src="{% static 'js/employer-signup.js' %}"></script>
+{% endblock %} 

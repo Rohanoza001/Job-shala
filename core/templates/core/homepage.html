@@ -1,0 +1,151 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Job Shala - Find Your Dream Job{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                Find Your
+                <span class="text-primary">Dream Job</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                Discover thousands of job opportunities with all the information you need. Its your future.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-primary hover:bg-secondary text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-200">
+                    Find Jobs
+                </button>
+                <button class="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-200">
+                    Post a Job
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Why Choose Job Shala?
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                We provide the best job search experience with advanced features and tools.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6 rounded-lg hover:shadow-lg transition-shadow duration-200">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Smart Search</h3>
+                <p class="text-gray-600">Find jobs that match your skills and preferences with our intelligent search algorithm.</p>
+            </div>
+            <div class="text-center p-6 rounded-lg hover:shadow-lg transition-shadow duration-200">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Verified Jobs</h3>
+                <p class="text-gray-600">All job postings are verified to ensure quality and authenticity.</p>
+            </div>
+            <div class="text-center p-6 rounded-lg hover:shadow-lg transition-shadow duration-200">
+                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Fast Apply</h3>
+                <p class="text-gray-600">Apply to multiple jobs quickly with our streamlined application process.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Jobs Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Latest Job Opportunities
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Discover the most recent job postings from top companies.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Job Card 1 -->
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <span class="text-sm text-green-600 font-medium">Full Time</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Senior Software Engineer</h3>
+                <p class="text-gray-600 mb-4">TechCorp Inc.</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-500 text-sm">$80k - $120k</span>
+                    <button class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                        Apply Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Job Card 2 -->
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <span class="text-sm text-blue-600 font-medium">Remote</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">UX/UI Designer</h3>
+                <p class="text-gray-600 mb-4">DesignStudio</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-500 text-sm">$60k - $90k</span>
+                    <button class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                        Apply Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Job Card 3 -->
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <span class="text-sm text-orange-600 font-medium">Contract</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Marketing Manager</h3>
+                <p class="text-gray-600 mb-4">GrowthCo</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-500 text-sm">$70k - $100k</span>
+                    <button class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                        Apply Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12">
+            <button class="bg-primary hover:bg-secondary text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-200">
+                View All Jobs
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %} 
