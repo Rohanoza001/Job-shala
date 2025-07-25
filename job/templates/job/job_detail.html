@@ -157,38 +157,69 @@
             <div class="lg:col-span-1">
                 <!-- Application Form -->
                 {% if not has_applied %}
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Apply for this position</h3>
-                    
-                    <form method="POST" enctype="multipart/form-data" class="space-y-4">
-                        {% csrf_token %}
+                    {% if user.is_authenticated and has_job_seeker_profile %}
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Apply for this position</h3>
                         
-                        <div>
-                            <label for="{{ form.cover_letter.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                Cover Letter <span class="text-red-500">*</span>
-                            </label>
-                            {{ form.cover_letter }}
-                            {% if form.cover_letter.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.cover_letter.errors.0 }}</p>
-                            {% endif %}
+                        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                            {% csrf_token %}
+                            
+                            <div>
+                                <label for="{{ form.cover_letter.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Cover Letter <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.cover_letter }}
+                                {% if form.cover_letter.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.cover_letter.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div>
+                                <label for="{{ form.resume.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Resume <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.resume }}
+                                {% if form.resume.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.resume.errors.0 }}</p>
+                                {% endif %}
+                                <p class="text-xs text-gray-500 mt-1">Accepted formats: PDF, DOC, DOCX (max 5MB)</p>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg font-medium hover:bg-secondary transition-colors">
+                                Submit Application
+                            </button>
+                        </form>
+                    </div>
+                    {% elif user.is_authenticated and not has_job_seeker_profile %}
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-blue-800">Complete Your Profile</h3>
+                                <div class="mt-2 text-sm text-blue-700">
+                                    <p>To apply for this job, you need to complete your job seeker profile.</p>
+                                    <div class="mt-3">
+                                        <a href="{% url 'job_signup' %}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+                                            Complete Job Seeker Profile
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div>
-                            <label for="{{ form.resume.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                Resume <span class="text-red-500">*</span>
-                            </label>
-                            {{ form.resume }}
-                            {% if form.resume.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.resume.errors.0 }}</p>
-                            {% endif %}
-                            <p class="text-xs text-gray-500 mt-1">Accepted formats: PDF, DOC, DOCX (max 5MB)</p>
-                        </div>
-                        
-                        <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg font-medium hover:bg-secondary transition-colors">
-                            Submit Application
-                        </button>
-                    </form>
-                </div>
+                    </div>
+                    {% else %}
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Apply for this position</h3>
+                        <p class="text-gray-600 mb-4">Please log in to apply for this position.</p>
+                        <a href="{% url 'login' %}" class="w-full bg-primary text-white py-3 px-4 rounded-lg font-medium hover:bg-secondary transition-colors text-center block">
+                            Log In to Apply
+                        </a>
+                    </div>
+                    {% endif %}
                 {% endif %}
 
                 <!-- Company Info -->

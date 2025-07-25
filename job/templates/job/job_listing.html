@@ -86,6 +86,33 @@
 
     <!-- Job Listings -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Profile Completion Notice -->
+        {% if user.is_authenticated and not has_job_seeker_profile %}
+        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-blue-800">Complete Your Profile</h3>
+                    <div class="mt-2 text-sm text-blue-700">
+                        <p>To apply for jobs, you need to complete your profile. Choose your account type:</p>
+                        <div class="mt-3 flex space-x-4">
+                            <a href="{% url 'job_signup' %}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+                                Sign up as Job Seeker
+                            </a>
+                            <a href="{% url 'employer_signup' %}" class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                                Sign up as Employer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
         <!-- Results Summary -->
         <div class="mb-6">
             <p class="text-gray-600">

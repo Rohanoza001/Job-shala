@@ -18,10 +18,17 @@ User = get_user_model()
 
 def employer_signup(request):
     """Employer signup page with multi-step form"""
-    # Redirect if user is already logged in
+    # Check if user is already logged in
     if request.user.is_authenticated:
-        messages.info(request, 'You are already logged in.')
-        return redirect('employer_dashboard')
+        # Check if they already have an employer profile
+        try:
+            employer = Employer.objects.get(user=request.user)
+            messages.info(request, 'You are already logged in.')
+            return redirect('employer_dashboard')
+        except Employer.DoesNotExist:
+            # User is logged in but doesn't have an employer profile
+            # Allow them to complete their profile
+            pass
     
     if request.method == 'POST':
         try:
@@ -54,67 +61,103 @@ def employer_signup(request):
             # Handle file uploads
             company_logo = request.FILES.get('company_logo')
             
-            # Basic validation
-            if not first_name or not last_name or not email or not password or not confirm_password:
-                missing_fields = []
-                if not first_name:
-                    missing_fields.append('First Name')
-                if not last_name:
-                    missing_fields.append('Last Name')
-                if not email:
-                    missing_fields.append('Email')
-                if not password:
-                    missing_fields.append('Password')
-                if not confirm_password:
-                    missing_fields.append('Confirm Password')
+            # Check if user is already logged in
+            if request.user.is_authenticated:
+                # User is logged in but needs to complete employer profile
+                user = request.user
                 
-                messages.error(request, f'Please fill in all required fields: {", ".join(missing_fields)}')
-                return render(request, 'employer/signup.html')
-            
-            if password != confirm_password:
-                messages.error(request, 'Passwords do not match.')
-                return render(request, 'employer/signup.html')
-            
-            if len(password) < 8:
-                messages.error(request, 'Password must be at least 8 characters long.')
-                return render(request, 'employer/signup.html')
-            
-            # Email validation
-            if '@' not in email or '.' not in email:
-                messages.error(request, 'Please enter a valid email address.')
-                return render(request, 'employer/signup.html')
-            
-            # Check if user already exists
-            if User.objects.filter(email=email).exists():
-                messages.error(request, 'A user with this email already exists.')
-                return render(request, 'employer/signup.html')
-            
-            if User.objects.filter(username=email).exists():
-                messages.error(request, 'A user with this email already exists.')
-                return render(request, 'employer/signup.html')
-            
-            # Create user
-            user = User.objects.create_user(
-                username=email,
-                email=email,
-                password=password,
-                first_name=first_name,
-                last_name=last_name
-            )
-            
-            # Create Employer profile
-            employer = Employer.objects.create(
-                user=user,
-                company_name=company_name or "Not provided",
-                designation=designation or "Not provided",
-                department=department or "Not provided",
-                phone=phone or "Not provided",
-                company_website=company_website or "",
-                company_email=company_email or email,
-                company_phone=company_phone or phone or "Not provided",
-                address=address or "Not provided",
-                city=city or "Not provided",
-                state=state or "Not provided",
+                # Update user information if provided
+                if first_name:
+                    user.first_name = first_name
+                if last_name:
+                    user.last_name = last_name
+                user.save()
+                
+                # Create Employer profile for existing user
+                employer = Employer.objects.create(
+                    user=user,
+                    company_name=company_name or "Not provided",
+                    designation=designation or "Not provided",
+                    department=department or "Not provided",
+                    phone=phone or "Not provided",
+                    company_website=company_website or "",
+                    company_email=company_email or user.email,
+                    company_phone=company_phone or phone or "Not provided",
+                    address=address or "Not provided",
+                    city=city or "Not provided",
+                    state=state or "Not provided",
+                    country=country or "Not provided",
+                    pincode=pincode or "Not provided",
+                    gst_number=gst_number or "",
+                    company_logo=company_logo,
+                    is_approved=False  # Requires admin approval
+                )
+                
+                messages.success(request, f'Welcome to Job Shala, {user.get_full_name()}! Your employer account has been created and is pending approval.')
+                return redirect('employer_dashboard')
+            else:
+                # New user registration
+                # Basic validation
+                if not first_name or not last_name or not email or not password or not confirm_password:
+                    missing_fields = []
+                    if not first_name:
+                        missing_fields.append('First Name')
+                    if not last_name:
+                        missing_fields.append('Last Name')
+                    if not email:
+                        missing_fields.append('Email')
+                    if not password:
+                        missing_fields.append('Password')
+                    if not confirm_password:
+                        missing_fields.append('Confirm Password')
+                    
+                    messages.error(request, f'Please fill in all required fields: {", ".join(missing_fields)}')
+                    return render(request, 'employer/signup.html')
+                
+                if password != confirm_password:
+                    messages.error(request, 'Passwords do not match.')
+                    return render(request, 'employer/signup.html')
+                
+                if len(password) < 8:
+                    messages.error(request, 'Password must be at least 8 characters long.')
+                    return render(request, 'employer/signup.html')
+                
+                # Email validation
+                if '@' not in email or '.' not in email:
+                    messages.error(request, 'Please enter a valid email address.')
+                    return render(request, 'employer/signup.html')
+                
+                # Check if user already exists
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, 'A user with this email already exists.')
+                    return render(request, 'employer/signup.html')
+                
+                if User.objects.filter(username=email).exists():
+                    messages.error(request, 'A user with this email already exists.')
+                    return render(request, 'employer/signup.html')
+                
+                # Create new user
+                user = User.objects.create_user(
+                    username=email,
+                    email=email,
+                    password=password,
+                    first_name=first_name,
+                    last_name=last_name
+                )
+                
+                # Create Employer profile
+                employer = Employer.objects.create(
+                    user=user,
+                    company_name=company_name or "Not provided",
+                    designation=designation or "Not provided",
+                    department=department or "Not provided",
+                    phone=phone or "Not provided",
+                    company_website=company_website or "",
+                    company_email=company_email or email,
+                    company_phone=company_phone or phone or "Not provided",
+                    address=address or "Not provided",
+                    city=city or "Not provided",
+                    state=state or "Not provided",
                 country=country or "Not provided",
                 pincode=pincode or "Not provided",
                 gst_number=gst_number or "",
@@ -131,41 +174,41 @@ def employer_signup(request):
             messages.error(request, 'An error occurred while creating your account. Please try again.')
             return render(request, 'employer/signup.html')
     
-    return render(request, 'employer/signup.html')
+    # Pass user information to template for pre-filling if user is logged in
+    context = {}
+    if request.user.is_authenticated:
+        context['user'] = request.user
+        context['is_existing_user'] = True
+    
+    return render(request, 'employer/signup.html', context)
 
 @login_required
 def employer_dashboard(request):
-    """Main employer dashboard with overview statistics"""
+    """Employer dashboard with statistics and recent activity"""
     try:
         employer = Employer.objects.get(user=request.user)
     except Employer.DoesNotExist:
         messages.error(request, "Please complete your employer profile first.")
         return redirect('employer_signup')
     
-    # Check if employer is approved
-    if not employer.is_approved:
-        messages.warning(request, "Your account is pending approval. You will be notified once approved.")
-        return render(request, 'employer/pending_approval.html', {'employer': employer})
-    
     # Get statistics
     total_jobs = Job.objects.filter(employer=employer).count()
     active_jobs = Job.objects.filter(employer=employer, is_active=True).count()
     total_applications = JobApplication.objects.filter(job__employer=employer).count()
-    new_applications = JobApplication.objects.filter(
-        job__employer=employer, 
-        status='applied',
+    recent_applications = JobApplication.objects.filter(
+        job__employer=employer,
         applied_at__gte=timezone.now() - timedelta(days=7)
     ).count()
     
-    # Recent applications
-    recent_applications = JobApplication.objects.filter(
+    # Get recent applications
+    recent_apps = JobApplication.objects.filter(
         job__employer=employer
-    ).select_related('job', 'job_seeker__user')[:5]
+    ).select_related('job', 'job_seeker__user').order_by('-applied_at')[:5]
     
-    # Recent jobs
+    # Get recent jobs
     recent_jobs = Job.objects.filter(employer=employer).order_by('-created_at')[:5]
     
-    # Unread messages
+    # Get unread messages count
     unread_messages = Message.objects.filter(
         receiver=request.user,
         is_read=False
@@ -176,12 +219,11 @@ def employer_dashboard(request):
         'total_jobs': total_jobs,
         'active_jobs': active_jobs,
         'total_applications': total_applications,
-        'new_applications': new_applications,
         'recent_applications': recent_applications,
+        'recent_apps': recent_apps,
         'recent_jobs': recent_jobs,
         'unread_messages': unread_messages,
     }
-    
     return render(request, 'employer/dashboard.html', context)
 
 @login_required
@@ -193,19 +235,14 @@ def post_job(request):
         messages.error(request, "Please complete your employer profile first.")
         return redirect('employer_signup')
     
-    # Check if employer is approved
-    if not employer.is_approved:
-        messages.error(request, "Your account is pending approval. You cannot post jobs until approved.")
-        return redirect('employer_dashboard')
-    
     if request.method == 'POST':
-        form = JobPostForm(request.POST)
+        form = JobPostForm(request.POST, request.FILES)
         if form.is_valid():
             job = form.save(commit=False)
             job.employer = employer
             job.company_name = employer.company_name
             job.save()
-            messages.success(request, "Job posted successfully!")
+            messages.success(request, 'Job posted successfully!')
             return redirect('employer_jobs')
     else:
         form = JobPostForm()
@@ -218,27 +255,21 @@ def post_job(request):
 
 @login_required
 def employer_jobs(request):
-    """List all jobs posted by the employer"""
+    """View all jobs posted by the employer"""
     try:
         employer = Employer.objects.get(user=request.user)
     except Employer.DoesNotExist:
         messages.error(request, "Please complete your employer profile first.")
         return redirect('employer_signup')
     
-    # Check if employer is approved
-    if not employer.is_approved:
-        messages.error(request, "Your account is pending approval. You cannot view jobs until approved.")
-        return redirect('employer_dashboard')
-    
     jobs = Job.objects.filter(employer=employer).order_by('-created_at')
     
     # Filtering
     status_filter = request.GET.get('status')
-    if status_filter:
-        if status_filter == 'active':
-            jobs = jobs.filter(is_active=True)
-        elif status_filter == 'inactive':
-            jobs = jobs.filter(is_active=False)
+    if status_filter == 'active':
+        jobs = jobs.filter(is_active=True)
+    elif status_filter == 'inactive':
+        jobs = jobs.filter(is_active=False)
     
     # Pagination
     paginator = Paginator(jobs, 10)
@@ -264,10 +295,10 @@ def edit_job(request, job_id):
     job = get_object_or_404(Job, id=job_id, employer=employer)
     
     if request.method == 'POST':
-        form = JobPostForm(request.POST, instance=job)
+        form = JobPostForm(request.POST, request.FILES, instance=job)
         if form.is_valid():
             form.save()
-            messages.success(request, "Job updated successfully!")
+            messages.success(request, 'Job updated successfully!')
             return redirect('employer_jobs')
     else:
         form = JobPostForm(instance=job)
@@ -277,7 +308,7 @@ def edit_job(request, job_id):
         'job': job,
         'employer': employer,
     }
-    return render(request, 'employer/edit_job.html', context)
+    return render(request, 'employer/post_job.html', context)
 
 @login_required
 def job_applications(request, job_id):
@@ -297,7 +328,7 @@ def job_applications(request, job_id):
         applications = applications.filter(status=status_filter)
     
     # Pagination
-    paginator = Paginator(applications, 10)
+    paginator = Paginator(applications, 15)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
@@ -311,29 +342,35 @@ def job_applications(request, job_id):
 
 @login_required
 def application_detail(request, application_id):
-    """View detailed application information"""
+    """View detailed information about a specific application"""
     try:
         employer = Employer.objects.get(user=request.user)
     except Employer.DoesNotExist:
         messages.error(request, "Please complete your employer profile first.")
         return redirect('employer_signup')
     
-    application = get_object_or_404(
-        JobApplication, 
-        id=application_id, 
-        job__employer=employer
-    )
-    
-    # Mark as viewed
-    if not application.is_viewed:
-        application.is_viewed = True
-        application.save()
+    application = get_object_or_404(JobApplication, id=application_id, job__employer=employer)
     
     if request.method == 'POST':
         form = ApplicationStatusForm(request.POST, instance=application)
         if form.is_valid():
+            new_status = form.cleaned_data['status']
+            
+            # Check if this is a final decision
+            if application.is_final_decision(new_status):
+                if application.decision_made:
+                    messages.error(request, 'A final decision has already been made on this application. You cannot change it.')
+                    return redirect('application_detail', application_id=application.id)
+                else:
+                    # Mark as decision made
+                    application.decision_made = True
+                    application.decision_date = timezone.now()
+            
             form.save()
-            messages.success(request, "Application status updated successfully!")
+            application.save()  # Save the decision tracking fields
+            
+            status_display = dict(JobApplication.STATUS_CHOICES)[new_status]
+            messages.success(request, f'Application status updated to "{status_display}" successfully!')
             return redirect('application_detail', application_id=application.id)
     else:
         form = ApplicationStatusForm(instance=application)
@@ -348,11 +385,19 @@ def application_detail(request, application_id):
 @login_required
 def all_applications(request):
     """View all applications across all jobs"""
+    # Check if user is an employer
     try:
         employer = Employer.objects.get(user=request.user)
     except Employer.DoesNotExist:
-        messages.error(request, "Please complete your employer profile first.")
-        return redirect('employer_signup')
+        # Check if user is a job seeker
+        try:
+            job_seeker = JobSeeker.objects.get(user=request.user)
+            messages.error(request, "This page is for employers only. You are registered as a job seeker.")
+            return redirect('job_seeker_dashboard')  # Redirect to job seeker dashboard
+        except JobSeeker.DoesNotExist:
+            # User has no profile - they need to complete employer signup
+            messages.error(request, "Please complete your employer profile first.")
+            return redirect('employer_signup')
     
     applications = JobApplication.objects.filter(
         job__employer=employer
@@ -387,46 +432,47 @@ def all_applications(request):
 
 @login_required
 def employer_messages(request):
-    """View and send messages"""
+    """View all messages/conversations"""
+    # Check if user is an employer
     try:
         employer = Employer.objects.get(user=request.user)
     except Employer.DoesNotExist:
-        messages.error(request, "Please complete your employer profile first.")
-        return redirect('employer_signup')
+        # Check if user is a job seeker
+        try:
+            job_seeker = JobSeeker.objects.get(user=request.user)
+            messages.error(request, "This page is for employers only. You are registered as a job seeker.")
+            return redirect('job_seeker_dashboard')  # Redirect to job seeker dashboard
+        except JobSeeker.DoesNotExist:
+            # User has no profile - they need to complete employer signup
+            messages.error(request, "Please complete your employer profile first.")
+            return redirect('employer_signup')
     
-    # Get conversations (unique users)
-    conversations = Message.objects.filter(
+    # Get all messages for this user
+    user_messages = Message.objects.filter(
         Q(sender=request.user) | Q(receiver=request.user)
-    ).values('sender', 'receiver').distinct()
+    ).select_related('sender', 'receiver').order_by('-created_at')
     
-    # Get latest message for each conversation
-    conversation_list = []
-    for conv in conversations:
-        sender_id = conv['sender']
-        receiver_id = conv['receiver']
-        
-        if sender_id == request.user.id:
-            other_user_id = receiver_id
+    # Group by conversation partner
+    conversations_dict = {}
+    for message in user_messages:
+        if message.sender == request.user:
+            other_user = message.receiver
         else:
-            other_user_id = sender_id
+            other_user = message.sender
         
-        latest_message = Message.objects.filter(
-            Q(sender=request.user, receiver_id=other_user_id) |
-            Q(sender_id=other_user_id, receiver=request.user)
-        ).order_by('-created_at').first()
-        
-        if latest_message:
-            conversation_list.append({
-                'other_user': latest_message.sender if latest_message.sender != request.user else latest_message.receiver,
-                'latest_message': latest_message,
-                'unread_count': Message.objects.filter(
-                    sender_id=other_user_id,
-                    receiver=request.user,
-                    is_read=False
-                ).count()
-            })
+        if other_user.id not in conversations_dict:
+            conversations_dict[other_user.id] = {
+                'other_user': other_user,
+                'latest_message': message,
+                'unread_count': 0
+            }
+        else:
+            # Update unread count
+            if message.receiver == request.user and not message.is_read:
+                conversations_dict[other_user.id]['unread_count'] += 1
     
-    # Sort by latest message
+    # Convert to list and sort by latest message
+    conversation_list = list(conversations_dict.values())
     conversation_list.sort(key=lambda x: x['latest_message'].created_at, reverse=True)
     
     context = {
@@ -438,11 +484,19 @@ def employer_messages(request):
 @login_required
 def conversation_detail(request, user_id):
     """View conversation with a specific user"""
+    # Check if user is an employer
     try:
         employer = Employer.objects.get(user=request.user)
     except Employer.DoesNotExist:
-        messages.error(request, "Please complete your employer profile first.")
-        return redirect('employer_signup')
+        # Check if user is a job seeker
+        try:
+            job_seeker = JobSeeker.objects.get(user=request.user)
+            messages.error(request, "This page is for employers only. You are registered as a job seeker.")
+            return redirect('job_seeker_dashboard')  # Redirect to job seeker dashboard
+        except JobSeeker.DoesNotExist:
+            # User has no profile - they need to complete employer signup
+            messages.error(request, "Please complete your employer profile first.")
+            return redirect('employer_signup')
     
     other_user = get_object_or_404(User, id=user_id)
     messages_list = Message.objects.filter(
@@ -501,8 +555,62 @@ def send_message_ajax(request):
     return JsonResponse({'success': False})
 
 @login_required
+def quick_status_update(request, application_id):
+    """Quick status update for applications"""
+    if request.method != 'POST':
+        return redirect('all_applications')
+    
+    # Check if user is an employer
+    try:
+        employer = Employer.objects.get(user=request.user)
+    except Employer.DoesNotExist:
+        # Check if user is a job seeker
+        try:
+            job_seeker = JobSeeker.objects.get(user=request.user)
+            messages.error(request, "This page is for employers only. You are registered as a job seeker.")
+            return redirect('job_seeker_dashboard')
+        except JobSeeker.DoesNotExist:
+            messages.error(request, "Please complete your employer profile first.")
+            return redirect('employer_signup')
+    
+    application = get_object_or_404(JobApplication, id=application_id, job__employer=employer)
+    new_status = request.POST.get('status')
+    
+    if new_status in ['applied', 'reviewing', 'shortlisted', 'interviewed', 'hired', 'rejected', 'withdrawn']:
+        # Check if this is a final decision
+        if application.is_final_decision(new_status):
+            if application.decision_made:
+                messages.error(request, 'A final decision has already been made on this application. You cannot change it.')
+            else:
+                # Mark as decision made
+                application.decision_made = True
+                application.decision_date = timezone.now()
+                application.status = new_status
+                application.save()
+                
+                status_display = dict(JobApplication.STATUS_CHOICES)[new_status]
+                messages.success(request, f'Application status updated to "{status_display}" successfully!')
+        else:
+            # Non-final decision, can always change
+            application.status = new_status
+            application.save()
+            
+            status_display = dict(JobApplication.STATUS_CHOICES)[new_status]
+            messages.success(request, f'Application status updated to "{status_display}" successfully!')
+    else:
+        messages.error(request, 'Invalid status provided.')
+    
+    # Redirect back to the referring page
+    referer = request.META.get('HTTP_REFERER')
+    if referer:
+        return redirect(referer)
+    else:
+        return redirect('all_applications')
+
+@login_required
 def approval_status(request):
     """Check employer approval status"""
+    # Check if user is an employer
     try:
         employer = Employer.objects.get(user=request.user)
         context = {
@@ -514,5 +622,12 @@ def approval_status(request):
         }
         return render(request, 'employer/approval_status.html', context)
     except Employer.DoesNotExist:
-        messages.error(request, "Please complete your employer profile first.")
-        return redirect('employer_signup')
+        # Check if user is a job seeker
+        try:
+            job_seeker = JobSeeker.objects.get(user=request.user)
+            messages.error(request, "This page is for employers only. You are registered as a job seeker.")
+            return redirect('job_seeker_dashboard')  # Redirect to job seeker dashboard
+        except JobSeeker.DoesNotExist:
+            # User has no profile - they need to complete employer signup
+            messages.error(request, "Please complete your employer profile first.")
+            return redirect('employer_signup')

@@ -131,7 +131,22 @@
                         <h2 class="text-lg font-medium text-gray-900">Application Status</h2>
                     </div>
                     <div class="p-6">
-                        <form method="post">
+                        {% if application.decision_made %}
+                            <!-- Decision Made Status -->
+                            <div class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <h3 class="text-sm font-medium text-blue-900">Final Decision Made</h3>
+                                        <p class="text-sm text-blue-700">Decision made on {{ application.decision_date|date:"F j, Y" }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        <form method="post" {% if application.decision_made %}class="opacity-50 pointer-events-none"{% endif %}>
                             {% csrf_token %}
                             <div class="space-y-4">
                                 <div>
@@ -155,11 +170,23 @@
                                     <p class="mt-1 text-sm text-gray-500">Add private notes about this candidate</p>
                                 </div>
                                 
-                                <button type="submit" class="w-full bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                                    Update Status
+                                <button type="submit" class="w-full bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200" {% if application.decision_made %}disabled{% endif %}>
+                                    {% if application.decision_made %}
+                                        Decision Already Made
+                                    {% else %}
+                                        Update Status
+                                    {% endif %}
                                 </button>
                             </div>
                         </form>
+                        
+                        {% if application.decision_made %}
+                            <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <p class="text-sm text-yellow-800">
+                                    <strong>Note:</strong> A final decision has been made on this application. The status cannot be changed.
+                                </p>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 

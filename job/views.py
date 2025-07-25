@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth import login as auth_login
 from .models import JobSeeker, JobApplication
-from employer.models import Job
+from employer.models import Job, Employer
 from .forms import JobApplicationForm
 import json
 
@@ -185,13 +185,22 @@ def job_listing(request):
     
     # Get user's applications to show applied status
     user_applications = {}
+    has_job_seeker_profile = False
     if request.user.is_authenticated:
         try:
             job_seeker = JobSeeker.objects.get(user=request.user)
             applications = JobApplication.objects.filter(job_seeker=job_seeker)
             user_applications = {app.job.id: app.status for app in applications}
+            has_job_seeker_profile = True
         except JobSeeker.DoesNotExist:
-            pass
+            # Check if user has employer profile
+            try:
+                employer = Employer.objects.get(user=request.user)
+                # User is an employer, they can view jobs but not apply
+                pass
+            except Employer.DoesNotExist:
+                # User has no profile, show message to complete profile
+                messages.warning(request, 'Please complete your profile to apply for jobs. You can sign up as a job seeker or employer.')
     
     context = {
         'jobs': page_obj,
@@ -202,6 +211,7 @@ def job_listing(request):
         'user_applications': user_applications,
         'job_types': Job.JOB_TYPE_CHOICES,
         'experience_levels': Job.EXPERIENCE_CHOICES,
+        'has_job_seeker_profile': has_job_seeker_profile,
     }
     
     return render(request, 'job/job_listing.html', context)
@@ -213,36 +223,49 @@ def job_detail(request, job_id):
     # Check if user has already applied
     has_applied = False
     application = None
+    has_job_seeker_profile = False
     if request.user.is_authenticated:
         try:
             job_seeker = JobSeeker.objects.get(user=request.user)
             application = JobApplication.objects.filter(job=job, job_seeker=job_seeker).first()
             has_applied = application is not None
+            has_job_seeker_profile = True
         except JobSeeker.DoesNotExist:
-            pass
+            # Check if user has employer profile
+            try:
+                employer = Employer.objects.get(user=request.user)
+                # User is an employer, they can view jobs but not apply
+                pass
+            except Employer.DoesNotExist:
+                # User has no profile
+                pass
     
     # Increment view count
     job.views_count += 1
     job.save()
     
     if request.method == 'POST' and request.user.is_authenticated and not has_applied:
-        try:
-            job_seeker = JobSeeker.objects.get(user=request.user)
-            form = JobApplicationForm(request.POST, request.FILES)
-            if form.is_valid():
-                application = form.save(commit=False)
-                application.job = job
-                application.job_seeker = job_seeker
-                application.save()
-                
-                # Update job application count
-                job.applications_count += 1
-                job.save()
-                
-                messages.success(request, 'Your application has been submitted successfully!')
-                return redirect('job_detail', job_id=job.id)
-        except JobSeeker.DoesNotExist:
-            messages.error(request, 'Please complete your profile first.')
+        if has_job_seeker_profile:
+            try:
+                job_seeker = JobSeeker.objects.get(user=request.user)
+                form = JobApplicationForm(request.POST, request.FILES)
+                if form.is_valid():
+                    application = form.save(commit=False)
+                    application.job = job
+                    application.job_seeker = job_seeker
+                    application.save()
+                    
+                    # Update job application count
+                    job.applications_count += 1
+                    job.save()
+                    
+                    messages.success(request, 'Your application has been submitted successfully!')
+                    return redirect('job_detail', job_id=job.id)
+            except JobSeeker.DoesNotExist:
+                messages.error(request, 'Please complete your profile first.')
+                return redirect('job_signup')
+        else:
+            messages.warning(request, 'Please complete your job seeker profile to apply for jobs.')
             return redirect('job_signup')
     else:
         form = JobApplicationForm()
@@ -252,6 +275,7 @@ def job_detail(request, job_id):
         'form': form,
         'has_applied': has_applied,
         'application': application,
+        'has_job_seeker_profile': has_job_seeker_profile,
     }
     
     return render(request, 'job/job_detail.html', context)

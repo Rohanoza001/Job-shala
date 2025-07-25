@@ -91,6 +91,13 @@ class ApplicationStatusForm(forms.ModelForm):
                 'placeholder': 'Add notes about this application...'
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.decision_made:
+            # Disable the status field if decision has been made
+            self.fields['status'].widget.attrs['disabled'] = 'disabled'
+            self.fields['status'].widget.attrs['class'] += ' opacity-50'
 
 class MessageForm(forms.ModelForm):
     class Meta:

@@ -39,9 +39,20 @@ class JobApplication(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     employer_notes = models.TextField(blank=True, null=True)
     is_viewed = models.BooleanField(default=False)
+    decision_made = models.BooleanField(default=False)  # Track if final decision has been made
+    decision_date = models.DateTimeField(null=True, blank=True)  # When decision was made
 
     def __str__(self):
         return f"{self.job_seeker.user.get_full_name()} - {self.job.title}"
+
+    def can_change_status(self):
+        """Check if the status can still be changed"""
+        # Can change if no final decision has been made
+        return not self.decision_made
+
+    def is_final_decision(self, status):
+        """Check if the given status is a final decision"""
+        return status in ['shortlisted', 'hired', 'rejected']
 
     class Meta:
         ordering = ['-applied_at']

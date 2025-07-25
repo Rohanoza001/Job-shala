@@ -59,7 +59,6 @@
                             <button id="user-menu-btn-desktop" class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer">
                                 Welcome, {{ user.get_full_name|default:user.username }}
                             </button>
-                            <a href="{% url 'logout' %}" class="text-gray-600 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Logout</a>
                         </div>
                     {% else %}
                         <a href="{% url 'login' %}" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Login</a>
@@ -92,7 +91,6 @@
                             <button id="user-menu-btn-mobile" class="text-gray-600 hover:text-primary block px-3 py-2 text-base font-medium cursor-pointer text-left w-full">
                                 Welcome, {{ user.get_full_name|default:user.username }}
                             </button>
-                            <a href="{% url 'logout' %}" class="text-gray-600 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium">Logout</a>
                         </div>
                     {% else %}
                         <div class="flex items-center px-5">
